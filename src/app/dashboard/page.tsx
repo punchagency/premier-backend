@@ -20,10 +20,10 @@ export default function Dashboard() {
       const data = await response.json();
       console.log(data);
       setProperties(Array.isArray(data) ? data : []);
-    } catch (err) {
-      setError('Failed to load properties');
-      console.error(err);
-    } finally {
+    } catch (error: unknown) { // Change err to error and add type
+        setError('Failed to load properties');
+        console.error('Error:', error);
+      } finally {
       setLoading(false);
     }
   };
@@ -37,8 +37,9 @@ export default function Dashboard() {
         if (response.ok) {
           setProperties(prev => prev.filter(p => p.id !== propertyId));
         }
-      } catch (err) {
+      } catch (error: unknown) { // Change err to error and add type
         setError('Failed to delete property');
+        console.error('Error:', error);
       }
     }
   };
