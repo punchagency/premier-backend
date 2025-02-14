@@ -31,8 +31,9 @@ export default function SignupForm() {
       } else {
         setError(data.message || 'Signup failed');
       }
-    } catch (err) {
+    } catch (error: unknown) { // Change err to error and add type
       setError('Signup failed. Please try again.');
+      console.error('Signup error:', error);
     }
   };
 

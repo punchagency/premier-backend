@@ -1,5 +1,6 @@
 'use client';
 import { Property } from '@/types/property';
+import Image from 'next/image';
 
 
 interface PropertyCardProps {
@@ -7,20 +8,25 @@ interface PropertyCardProps {
   onDelete?: (id: string) => void;
 }
 
+
 export default function PropertyCard({ property, onDelete }: PropertyCardProps) {
   return (
     <div className="border rounded-lg shadow-md p-4 mb-4">
-      {property.fieldData.image && (
-        <img
-          src={property.fieldData.images.url}
-          alt={property.fieldData.name}
-          className="w-full h-48 object-cover rounded-md mb-4"
-        />
+            {typeof property.fieldData.image === 'string' && (
+        <div className="relative w-full h-48">
+          <Image
+            src={property.fieldData.image as string}
+            alt={property.fieldData.title as string || 'Property'}
+            fill
+            style={{ objectFit: 'cover' }}
+            className="rounded-md"
+          />
+        </div>
       )}
-      <h3 className="text-xl font-semibold mb-2">{property.fieldData.name}</h3>
-      <p className="text-gray-600 mb-2">{property.fieldData["user-name"]}</p>
+      <h3 className="text-xl font-semibold mb-2">{property.fieldData.name as string}</h3>
+      <p className="text-gray-600 mb-2">{property.fieldData["user-name"] as string}</p>
       <div className="flex justify-between items-center">
-        <span className="text-gray-500">{property.fieldData["user-email"]}</span>
+        <span className="text-gray-500">{property.fieldData["user-email"] as string}</span>
       </div>
       {onDelete && (
         <button

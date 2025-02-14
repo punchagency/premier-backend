@@ -18,14 +18,14 @@ export async function POST(req: Request) {
       );
     }
 
-    // const isPasswordValid = ;
-    // console.log(isPasswordValid);
-    // if (!isPasswordValid) {
-    //   return NextResponse.json(
-    //     { success: false, message: 'Invalid password' },
-    //     { status: 400 }
-    //   );
-    // }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log(isPasswordValid);
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid password' },
+        { status: 400 }
+      );
+    }
 
     const token = jwt.sign(
       { userId: user._id, email: user.email, role: user.role },

@@ -23,7 +23,7 @@ const fetchItems = async (cmsIDs: []) => {
   }
 };
 
-export async function GET(req: Request) {
+export async function GET() {
   console.log('==== /api/dashboard route accessed ====');
   try {
     await dbConnect();
