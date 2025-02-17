@@ -63,7 +63,7 @@ export default function Dashboard() {
 
 
   const handleRedirect = async () => {
-    window.location.href = "https://figma-to-webflow-92b852.design.webflow.com/";
+    window.location.href = "https://figma-to-webflow-92b852.webflow.io/";
   };
 
   // Add this button to your dashboard JSX
@@ -79,9 +79,15 @@ export default function Dashboard() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold mb-6">My Saved Properties</h1>
+      <button
+          onClick={handleRedirect}
+          className="text-white hover:text-green-800 bg-green-500 px-4 py-2 rounded-md"
+        >
+          Logout
+        </button>
         <button
           onClick={handleLogout}
-          className="text-red-600 hover:text-red-800"
+          className="text-white hover:text-red-800 bg-red-500 px-4 py-2 rounded-md"
         >
           Logout
         </button>
@@ -97,12 +103,6 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <button
-          onClick={handleRedirect}
-          className="text-green-600 hover:text-green-800"
-        >
-          Logout
-        </button>
     </div>
   );
 }
