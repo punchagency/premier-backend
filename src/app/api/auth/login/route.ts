@@ -42,6 +42,7 @@ export async function POST(req: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'none',
+      domain: 'figma-to-webflow-92b852.webflow.io',
       maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
     });
 
