@@ -3,17 +3,16 @@ import dbConnect from '@/lib/db';
 import UserCard from '@/lib/models/User_Card';
 
 export async function DELETE(
-  req: Request,
-  { params }: { params: { propertyId: string } }
+  request: Request,
+  context: { params: Promise<{ id: string }> }  // Change params to a Promise
 ) {
   try {
     await dbConnect();
-    const propertyId = params.propertyId;
+    const { id: propertyId } = await context.params;  // Await the params
     const userId = process.env.USER_ID;
 
     console.log('Deleting property:', propertyId, 'for user:', userId);
 
-    // Update the UserCard document by removing the propertyId from cmsId array
     const result = await UserCard.updateOne(
       { userId },
       { $pull: { cmsId: propertyId } }

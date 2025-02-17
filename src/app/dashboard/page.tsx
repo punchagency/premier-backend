@@ -28,14 +28,14 @@ export default function Dashboard() {
     }
   };
 
-  const handleDelete = async (propertyId: string) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to remove this property?')) {
       try {
-        const response = await fetch(`/api/properties/${propertyId}`, {
+        const response = await fetch(`/api/properties/${id}`, {
           method: 'DELETE',
         });
         if (response.ok) {
-          setProperties(prev => prev.filter(p => p.id !== propertyId));
+          setProperties(prev => prev.filter(p => p.id !== id));
         }
       } catch (error: unknown) { // Change err to error and add type
         setError('Failed to delete property');
