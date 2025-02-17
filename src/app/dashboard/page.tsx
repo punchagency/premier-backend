@@ -61,6 +61,11 @@ export default function Dashboard() {
     }
   };
 
+
+  const handleRedirect = async () => {
+    window.location.href = "https://figma-to-webflow-92b852.design.webflow.com/";
+  };
+
   // Add this button to your dashboard JSX
 
   useEffect(() => {
@@ -91,6 +96,13 @@ export default function Dashboard() {
           />
         ))}
       </div>
+
+      <button
+          onClick={handleRedirect}
+          className="text-green-600 hover:text-green-800"
+        >
+          Logout
+        </button>
     </div>
   );
 }
