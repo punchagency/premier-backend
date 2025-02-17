@@ -87,7 +87,7 @@ export default function Dashboard() {
         </button>
         <button
           onClick={handleLogout}
-          className="text-white hover:text-red-800 bg-red-500 px-4 py-2 rounded-md"
+          className="text-white hover:text-red-800 bg-red-500 ml-40 px-4 py-2 rounded-md"
         >
           Logout
         </button>
