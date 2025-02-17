@@ -30,7 +30,7 @@ export default function PropertyCard({ property, onDelete }: PropertyCardProps) 
       </div>
       {onDelete && (
         <button
-          onClick={() => onDelete(property.id)}
+          onClick={() => onDelete(property.fieldData.slug as string)}
           className="mt-4 text-red-600 hover:text-red-800"
         >
           Remove from saved

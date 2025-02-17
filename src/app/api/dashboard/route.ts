@@ -9,7 +9,6 @@ const fetchItems = async (cmsIDs: []) => {
     console.log("cmsIDs", cmsIDs);
     const items = await Promise.all(
       cmsIDs.map(async (id: string) => {
-        console.log(id.toString());
         const item = await Properties.findOne({ id: id });
         console.log(item);
         return item;
@@ -29,9 +28,9 @@ export async function GET() {
     await dbConnect();
 
     const userId = process.env.USER_ID;
-
+    console.log("userId", userId);
     const savedItems = await UserCard.findOne({ userId });
-
+    console.log("savedItems", savedItems);
     if (!savedItems) {
       console.log('No saved items found, returning empty array');
       return NextResponse.json([]);
