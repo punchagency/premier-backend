@@ -61,12 +61,31 @@ export default function Dashboard() {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    try {
+     const response = await fetch("/api/auth/account", {
+        method: "DELETE",
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (data.success) {
+        router.push("/login");
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
 
   const handleRedirect = async () => {
     window.location.href = "https://figma-to-webflow-92b852.webflow.io/";
   };
 
   // Add this button to your dashboard JSX
+
+  const handleRedirectToChangePassword = async () => {
+    router.push("/change_password");
+  };
 
   useEffect(() => {
     loadProperties();
@@ -79,20 +98,33 @@ export default function Dashboard() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold mb-6">My Saved Properties</h1>
+        <div className="flex justify-around">
       <button
           onClick={handleRedirect}
           className="text-white hover:text-green-800 bg-green-500 px-4 py-2 rounded-md"
         >
-          Logout
+        Home
         </button>
         <button
           onClick={handleLogout}
-          className="text-white hover:text-red-800 bg-red-500 ml-40 px-4 py-2 rounded-md"
-        >
+          className="text-white hover:bg-orange-800 bg-orange-500 ml-40 px-4 py-2 rounded-md"
+          >
           Logout
         </button>
+        <button
+          onClick={handleRedirectToChangePassword}
+          className="text-white hover:bg-blue-800 bg-blue-500 ml-40 px-4 py-2 rounded-md"
+        >
+          change password
+        </button>
+        <button
+          onClick={handleDeleteAccount}
+          className="text-white hover:bg-red-800 bg-red-500 ml-40 px-4 py-2 rounded-md"
+        >
+          Delete Account
+        </button>
       </div>
-
+</div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {properties.map((property) => (
           <PropertyCard

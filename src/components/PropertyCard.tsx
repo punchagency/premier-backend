@@ -10,12 +10,13 @@ interface PropertyCardProps {
 
 
 export default function PropertyCard({ property, onDelete }: PropertyCardProps) {
+  console.log(property, "property");
   return (
     <div className="border rounded-lg shadow-md p-4 mb-4">
             {typeof property.fieldData.image === 'string' && (
         <div className="relative w-full h-48">
           <Image
-            src={property.fieldData.image as string}
+            src={property.fieldData.image as string }
             alt={property.fieldData.title as string || 'Property'}
             fill
             style={{ objectFit: 'cover' }}

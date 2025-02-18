@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
@@ -11,9 +12,11 @@ export default function LoginForm() {
   const [error, setError] = useState('');
   const router = useRouter();
 
+
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
     try {
+      e.preventDefault();
+      console.log(formData, "formData");
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -23,18 +26,25 @@ export default function LoginForm() {
         body: JSON.stringify(formData)
       });
 
+      console.log(response, "response");
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
-      
+      console.log(data, "data");
+
       if (data.success) {
         router.push('/dashboard');
       } else {
         setError(data.message || 'Login failed');
       }
-    } catch (err) {
+    } catch (error: unknown) {
       setError('Login failed. Please try again.');
+      console.error('Error:', error);
     }
   };
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && <div className="text-red-500">{error}</div>}
@@ -70,6 +80,9 @@ export default function LoginForm() {
       >
         Login
       </button>
+      <p className="text-center text-sm mt-4">
+        Don't have an account? <Link href="/signup" className="text-blue-600 hover:text-blue-800">Sign up</Link>
+      </p>
     </form>
   );
 }

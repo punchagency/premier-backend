@@ -41,11 +41,9 @@ export async function POST(req: Request) {
     response.cookies.set('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
-      domain: 'figma-to-webflow-92b852.webflow.io',
+      sameSite: 'lax',
       maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
     });
-
     return response;
   } catch (error) {
     console.error('Login error:', error);
