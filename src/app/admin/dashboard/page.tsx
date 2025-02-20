@@ -2,8 +2,14 @@ import PropertiesTable from "@/components/PropertiesTable";
 
 
 const AdminDashboard = () => {
+  const handleFetchNewProperties = async () => {
+    const response = await fetch("/api/properties/fetch_new_properties",{
+      method: "GET",
+    });
+    const data = await response.json();
+    console.log(data, "data");
+  };
   return (
-    
         <div className="container mx-auto px-4 py-8">
       <div className=" text-center mb-6">
         <h1 className="text-4xl font-bold mb-6">Admin Dashboard</h1>
@@ -11,6 +17,8 @@ const AdminDashboard = () => {
           <p className="text-sm text-gray-500">
             View and manage all properties
           </p>
+          <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={handleFetchNewProperties}>Logout</button>
+
         </div>
       <div className="flex flex-col gap-4 items-center justify-center">
         <PropertiesTable />
