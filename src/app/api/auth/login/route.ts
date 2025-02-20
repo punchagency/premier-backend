@@ -41,8 +41,9 @@ export async function POST(req: Request) {
 
     response.cookies.set('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production', // Ensure this is true in production
+      sameSite: 'none', // Required for cross-domain cookies
+      domain: '.premierproperties.ae', // Set to the parent domain
       maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
     });
     return response;
