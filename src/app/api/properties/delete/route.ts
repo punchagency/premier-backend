@@ -9,6 +9,12 @@ export async function DELETE(request: Request) {
     const { slug } = await request.json();  // Read slug from request body
     const userId = process.env.USER_ID;
 
+
+    const response = NextResponse.next();
+    response.headers.set('Access-Control-Allow-Origin', 'https://www.premierproperties.ae');
+    response.headers.set('Access-Control-Allow-Credentials', 'true');
+    response.headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     // Find the property by slug
     const property = await Properties.findOne({ "fieldData.slug": slug });
     if (!property) {
