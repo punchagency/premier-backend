@@ -1,13 +1,19 @@
+"use client";
 import PropertiesTable from "@/components/PropertiesTable";
+import { useEffect, useState } from "react";
+
 
 
 const AdminDashboard = () => {
+  const [properties, setProperties] = useState([]);
   const handleFetchNewProperties = async () => {
-    const response = await fetch("/api/properties/fetch_new_properties",{
-      method: "GET",
-    });
+    const response = await fetch("/api/properties/fetch_properties");
     const data = await response.json();
     console.log(data, "data");
+    setProperties(data.items);
+    useEffect(() => {
+      handleFetchNewProperties();
+    }, []);
   };
   return (
         <div className="container mx-auto px-4 py-8">
