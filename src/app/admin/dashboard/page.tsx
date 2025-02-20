@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 const AdminDashboard = () => {
   const [properties, setProperties] = useState([]);
   const handleFetchNewProperties = async () => {
-    const response = await fetch("/api/properties/fetch_properties");
+    const response = await fetch("/api/properties/fetch_new_properties");
     const data = await response.json();
     console.log(data, "data");
     setProperties(data.items);
@@ -23,7 +23,7 @@ const AdminDashboard = () => {
           <p className="text-sm text-gray-500">
             View and manage all properties
           </p>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={handleFetchNewProperties}>Logout</button>
+          <button className="bg-blue-500 text-white px-4 my-8 py-2 rounded-md" onClick={handleFetchNewProperties}>Fetch New Properties</button>
 
         </div>
       <div className="flex flex-col gap-4 items-center justify-center">
