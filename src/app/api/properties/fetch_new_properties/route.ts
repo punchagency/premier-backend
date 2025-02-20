@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     );
     console.log(items, "items");
     // Store items in the database
-    // await Properties.insertMany(items);
+    await Properties.insertMany(items);
 
     return NextResponse.json({
       message: "Data fetched and stored successfully",
