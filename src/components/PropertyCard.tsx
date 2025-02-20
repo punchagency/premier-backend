@@ -10,7 +10,6 @@ interface PropertyCardProps {
 
 
 export default function PropertyCard({ property, onDelete }: PropertyCardProps) {
-  console.log(property, "property");
   return (
     <div className="border rounded-lg shadow-md p-4 mb-4">
             {typeof property.fieldData.images?.url === 'string' && (
@@ -24,7 +23,7 @@ export default function PropertyCard({ property, onDelete }: PropertyCardProps) 
           />
         </div>
       )}
-      <h3 className="text-xl font-semibold mb-2">{property.fieldData.name }</h3>
+      <h3 className="text-xl font-semibold my-4">{property.fieldData.name }</h3>
       <p className="text-gray-600 mb-2">{property.fieldData["user-name"] }</p>
       <div className="flex justify-between items-center">
         <span className="text-gray-500">{property.fieldData["user-email"] }</span>

@@ -21,7 +21,7 @@ try {
   connection.isConnected = mongoose.connection.readyState;
 } catch (error) {
   console.log("error", error)
-  process.exit(1)
+  throw new Error('Failed to connect to the database');
 }
 }
 

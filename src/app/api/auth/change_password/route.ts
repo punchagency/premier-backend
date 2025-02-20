@@ -1,12 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import User from "@/lib/models/User";
 import bcrypt from "bcryptjs";
+import { jwtVerify } from "jose";
 
 export async function POST(request: NextRequest) {
-    const { email, newPassword, oldPassword } = await request.json();
-    console.log(email, newPassword, oldPassword, "email, newPassword, oldPassword");
+    const { newPassword, oldPassword, confirmPassword } = await request.json();
+    console.log(newPassword, oldPassword, confirmPassword, "newPassword, oldPassword, confirmPassword");
     try {
-        const user = await User.findOne({ email });
+        const token = request.cookies.get("token")?.value;
+        const jwtSecret =  new TextEncoder().encode(process.env.JWT_SECRET);
+        const { payload } = await jwtVerify(token!, jwtSecret);
+        const email = payload.email;
+        
+        const user = await User.findOne({ email: email });
         if (!user) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
