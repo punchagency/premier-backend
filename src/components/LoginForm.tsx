@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Spinner } from 'flowbite-react';
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
@@ -10,13 +11,14 @@ export default function LoginForm() {
     password: ''
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
 
   const handleSubmit = async (e: React.FormEvent) => {
     try {
+      setLoading(true);
       e.preventDefault();
-      console.log(formData, "formData");
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -26,7 +28,7 @@ export default function LoginForm() {
         body: JSON.stringify(formData)
       });
 
-      console.log(response, "response");
+      setLoading(false);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -37,17 +39,21 @@ export default function LoginForm() {
 
       if (data.success) {
         router.push('/dashboard');
+        setLoading(false);
       } else {
         setError(data.message || 'Login failed');
+        setLoading(false);
       }
     } catch (error: unknown) {
       setError('Login failed. Please try again.');
       console.error('Error:', error);
+      setLoading(false);
     }
   };
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && <div className="text-red-500">{error}</div>}
+      {loading && <div className="text-red-500"><Spinner /></div>}
       <div>
         <label htmlFor="email" className="block text-sm font-medium">
           Email

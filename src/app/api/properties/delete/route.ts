@@ -12,14 +12,13 @@ export async function DELETE(request: NextRequest) {
     const jwtSecret = new TextEncoder().encode(process.env.JWT_SECRET);
     const { payload } = await jwtVerify(token!, jwtSecret);
     const userId = payload.userId;
+    if (!userId) {
+      return NextResponse.json({ 
+        success: false, 
+        message: "User not found" 
+      }, { status: 404 });
+    }
 
-    // const response = NextResponse.next();
-    // response.headers.set('Access-Control-Allow-Origin', 'https://www.premierproperties.ae');
-    // response.headers.set('Access-Control-Allow-Credentials', 'true');
-    // response.headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    // response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    // Find the property by slug
-    
     const property = await Properties.findOne({ "fieldData.slug": slug });
     if (!property) {
       return NextResponse.json({

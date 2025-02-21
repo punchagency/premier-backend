@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Spinner } from 'flowbite-react';
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -11,11 +12,13 @@ export default function SignupForm() {
     password: ''
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
@@ -28,18 +31,22 @@ export default function SignupForm() {
       
       if (data.success) {
         router.push('/login');
+        setLoading(false);
       } else {
         setError(data.message || 'Signup failed');
+        setLoading(false);
       }
     } catch (error: unknown) { // Change err to error and add type
       setError('Signup failed. Please try again.');
       console.error('Signup error:', error);
+      setLoading(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && <div className="text-red-500">{error}</div>}
+      {loading && <div className="text-red-500"><Spinner /></div>}
       <div>
         <label htmlFor="name" className="block text-sm font-medium">Name</label>
         <input

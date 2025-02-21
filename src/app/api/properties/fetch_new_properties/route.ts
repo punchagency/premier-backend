@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     if (!decodedToken) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-    console.log(decodedToken, "decodedToken");
+    console.log(decodedToken, "decodedToken"); 
     const webflow = new WebflowClient({ accessToken });
     const { sites } = await webflow.sites.list();
     const site = await webflow.sites.get(sites?.[0]?.id as string);

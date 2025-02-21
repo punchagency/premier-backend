@@ -5,17 +5,6 @@ import Properties from '@/lib/models/Properties';
 import { jwtVerify } from "jose";
 
 export async function POST(req: NextRequest) {
-  // Set CORS headers
-  // const response = NextResponse.next();
-  // response.headers.set('Access-Control-Allow-Origin', 'https://www.premierproperties.ae');
-  // response.headers.set('Access-Control-Allow-Credentials', 'true');
-  // response.headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  // response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-  // if (req.method === 'OPTIONS') {
-  //   return response; // Respond to preflight request
-  // }
-
   try {
     await dbConnect();
     const { slug } = await req.json();
@@ -23,6 +12,13 @@ export async function POST(req: NextRequest) {
     const jwtSecret = new TextEncoder().encode(process.env.JWT_SECRET);
     const { payload } = await jwtVerify(token!, jwtSecret);
     const userId = payload.userId;
+
+    if (!userId) {
+      return NextResponse.json({ 
+        success: false, 
+        message: "User not found" 
+      }, { status: 404 });
+    }
 
     // Find the property by slug
     const item = await Properties.findOne({ "fieldData.slug": slug });
