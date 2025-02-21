@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = password === user.password;
     console.log(isPasswordValid);
     if (!isPasswordValid) {
       return NextResponse.json(
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
       secure: process.env.NODE_ENV === 'production', // Ensure this is true in production
       sameSite: 'none', // Required for cross-domain cookies
       domain: '.premierproperties.ae', // Set to the parent domain
-      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+      maxAge: 60 * 60 // 1 hour
     });
     return response;
   } catch (error) {
