@@ -1,14 +1,9 @@
 const Spinner = () => {
-  return (
-<div
-  className="inline-block h-1 w-1 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
-  role="status">
-  {/* <span
-    className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-    >Loading...</span */}
+    return (
+      <div className="absolute inset-0 flex items-center justify-center bg-black/50 pt-8">
+        <div className="w-8 h-8 border-2 border-gray-300/25 rounded-full animate-spin border-t-white"></div>
+      </div>
+    );
+  };
   
-</div>
-  )
-}
-
-export default Spinner;
+  export default Spinner;

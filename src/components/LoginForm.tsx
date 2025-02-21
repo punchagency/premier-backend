@@ -1,9 +1,9 @@
 'use client';
-
+import { BsCheck2Circle } from "react-icons/bs";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Spinner } from 'flowbite-react';
+import Spinner from "./Spinner";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
@@ -12,6 +12,7 @@ export default function LoginForm() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
 
 
@@ -38,22 +39,25 @@ export default function LoginForm() {
       console.log(data, "data");
 
       if (data.success) {
-        router.push('/dashboard');
+        setIsSuccess(true);
         setLoading(false);
+        setTimeout(() => {
+          router.push('/dashboard');
+        }, 2000);
       } else {
-        setError(data.message || 'Login failed');
         setLoading(false);
+        setError(data.message || 'Login failed');
       }
     } catch (error: unknown) {
+      setLoading(false);
       setError('Login failed. Please try again.');
       console.error('Error:', error);
-      setLoading(false);
     }
   };
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && <div className="text-red-500">{error}</div>}
-      {loading && <Spinner />}
+      
       <div>
         <label htmlFor="email" className="block text-sm font-medium">
           Email
@@ -63,7 +67,7 @@ export default function LoginForm() {
           id="email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          className="mt-2 block w-full rounded-md border border-gray-200 shadow-sm p-2"
           required
         />
       </div>
@@ -74,17 +78,34 @@ export default function LoginForm() {
         <input
           type="password"
           id="password"
-          value={formData.password}
+          value={formData.password} 
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          className="mt-2 block w-full rounded-md border border-gray-200 shadow-sm p-2"
           required
         />
       </div>
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white rounded-md py-2 hover:bg-blue-700"
+        disabled={loading || isSuccess}
+        className={`w-full rounded-md py-2 mt-4 flex items-center justify-center transition-all duration-300 ${
+          isSuccess 
+            ? 'bg-green-600 hover:bg-green-700' 
+            : 'bg-blue-600 hover:bg-blue-700'
+        } text-white`}
       >
-        Login
+        {loading ? (
+          <>
+            <Spinner  /> 
+            <span>Logging in...</span>
+          </>
+        ) : isSuccess ? (
+          <>
+            <BsCheck2Circle className="w-5 h-5 mr-2" />
+            <span>Logged in</span>
+          </>
+        ) : (
+          <span>Login</span>
+        )}
       </button>
       <p className="text-center text-sm mt-4">
         Don't have an account? <Link href="/signup" className="text-blue-600 hover:text-blue-800">Sign up</Link>
