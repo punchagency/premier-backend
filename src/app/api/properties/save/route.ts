@@ -6,15 +6,15 @@ import { jwtVerify } from "jose";
 
 export async function POST(req: NextRequest) {
   // Set CORS headers
-  const response = NextResponse.next();
-  response.headers.set('Access-Control-Allow-Origin', 'https://www.premierproperties.ae');
-  response.headers.set('Access-Control-Allow-Credentials', 'true');
-  response.headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  // const response = NextResponse.next();
+  // response.headers.set('Access-Control-Allow-Origin', 'https://www.premierproperties.ae');
+  // response.headers.set('Access-Control-Allow-Credentials', 'true');
+  // response.headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  // response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-  if (req.method === 'OPTIONS') {
-    return response; // Respond to preflight request
-  }
+  // if (req.method === 'OPTIONS') {
+  //   return response; // Respond to preflight request
+  // }
 
   try {
     await dbConnect();

@@ -1,19 +1,20 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import UserCard from '@/lib/models/User_Card';
 import Properties from '@/lib/models/Properties';
-import { nanoid } from 'nanoid'
-const id = nanoid(32) //=> "V1StGXR8_Z5jdHi6B-myT"
-console.log(id, "id");
+import { jwtVerify } from 'jose';
+
 
 const fetchItems = async (cmsIDs: []) => {
   try {
+    console.log(cmsIDs, "cmsIDs");
     const items = await Promise.all(
       cmsIDs.map(async (id: string) => {
         const item = await Properties.findOne({ id: id });
         return item;
       })
     );
+    console.log(items, "items");
     return items.filter((item) => item !== null);
   } catch (error) {
     console.error("Error fetching items:", error);
@@ -21,16 +22,21 @@ const fetchItems = async (cmsIDs: []) => {
   }
 };
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const token = request.cookies.get('token')?.value;
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const decodedToken = await jwtVerify(token!, secret);
+    const userId = decodedToken.payload.userId;
+    console.log(userId, "userId");
     await dbConnect();
-    const userId = process.env.USER_ID;
-    const savedItems = await UserCard.findOne({ userId });
-    if (!savedItems) {
+    const userCards = await UserCard.findOne({ userId });
+    console.log(userCards, "userCards");
+    if (!userCards) {
       console.log('No saved items found, returning empty array');
       return NextResponse.json([]);
     }
-    const properties = await fetchItems(savedItems.cmsId);
+    const properties = await fetchItems(userCards.cmsId);
     return NextResponse.json(properties);
   } catch (error) {
     console.error('ERROR in dashboard API:', error);

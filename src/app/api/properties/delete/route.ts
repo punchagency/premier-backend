@@ -1,21 +1,25 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import UserCard from '@/lib/models/User_Card';
 import Properties from '@/lib/models/Properties';
+import { jwtVerify } from 'jose';
 
-export async function DELETE(request: Request) {
+export async function DELETE(request: NextRequest) {
   try {
     await dbConnect();
-    const { slug } = await request.json();  // Read slug from request body
-    const userId = process.env.USER_ID;
+    const { slug } = await request.json();
+    const token = request.cookies.get("token")?.value;
+    const jwtSecret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const { payload } = await jwtVerify(token!, jwtSecret);
+    const userId = payload.userId;
 
-
-    const response = NextResponse.next();
-    response.headers.set('Access-Control-Allow-Origin', 'https://www.premierproperties.ae');
-    response.headers.set('Access-Control-Allow-Credentials', 'true');
-    response.headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    // const response = NextResponse.next();
+    // response.headers.set('Access-Control-Allow-Origin', 'https://www.premierproperties.ae');
+    // response.headers.set('Access-Control-Allow-Credentials', 'true');
+    // response.headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    // response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     // Find the property by slug
+    
     const property = await Properties.findOne({ "fieldData.slug": slug });
     if (!property) {
       return NextResponse.json({
