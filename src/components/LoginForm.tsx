@@ -41,9 +41,16 @@ export default function LoginForm() {
       if (data.success) {
         setIsSuccess(true);
         setLoading(false);
-        setTimeout(() => {
-          router.push('/dashboard');
-        }, 2000);
+        if (data.role === 'admin') {
+          setTimeout(() => {
+            router.push('/admin/dashboard');
+          }, 2000);
+        } else {
+          setTimeout(() => {
+            router.push('/dashboard');
+          }, 2000);
+        }
+       
       } else {
         setLoading(false);
         setError(data.message || 'Login failed');

@@ -11,7 +11,6 @@ export async function POST(req: Request) {
     const { email, password } = await req.json();
 
     const user = await User.findOne({ email });
-    console.log(user);
     if (!user) {
       return NextResponse.json(
         { success: false, message: 'User not found' },
@@ -35,7 +34,7 @@ export async function POST(req: Request) {
     );
 
     const response = NextResponse.json(
-      { success: true, message: 'Login successful' },
+      { success: true, message: 'Login successful', role: user?.role },
       { status: 200 }
     );
 
