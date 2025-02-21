@@ -53,7 +53,7 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && <div className="text-red-500">{error}</div>}
-      {loading && <div className="text-red-500"><Spinner /></div>}
+      {loading && <Spinner />}
       <div>
         <label htmlFor="email" className="block text-sm font-medium">
           Email
