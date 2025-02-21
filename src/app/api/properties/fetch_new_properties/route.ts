@@ -22,18 +22,13 @@ export async function GET(request: NextRequest) {
     console.log(decodedToken, "decodedToken");
     const webflow = new WebflowClient({ accessToken });
     const { sites } = await webflow.sites.list();
-    console.log(sites, "sites");
     const site = await webflow.sites.get(sites?.[0]?.id as string);
-    console.log(site, "site");
     const { collections } = await webflow.collections.list(site.id);
-    console.log(collections, "collections");
-    const collectionId = collections?.[0]?.id;
-    console.log(collectionId, "collectionId");
-    const { items } = await webflow.collections.items.listItems(
-      collectionId as string
-    );
+    // console.log(collections, "collections");
+    // const collectionId = collections?.[0]?.id;
+    // console.log(collectionId, "collectionId");
+    const { items } = await webflow.collections.items.listItems("67349d368065d9f52101c3b0");
     console.log(items, "items");
-    // Store items in the database
     await Properties.insertMany(items);
 
     return NextResponse.json({

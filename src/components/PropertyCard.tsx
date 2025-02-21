@@ -10,6 +10,7 @@ interface PropertyCardProps {
 
 
 export default function PropertyCard({ property, onDelete }: PropertyCardProps) {
+  console.log(property, "property");
   return (
     <div className="border rounded-lg shadow-md p-4 mb-4">
             {typeof property.fieldData.images?.url === 'string' && (
