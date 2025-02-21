@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Spinner from "./Spinner";
+import { FcGoogle } from "react-icons/fc";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
@@ -61,6 +62,9 @@ export default function LoginForm() {
       console.error('Error:', error);
     }
   };
+
+  const handleGoogleSignup = () => {
+  }
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && <div className="text-red-500">{error}</div>}
@@ -114,6 +118,10 @@ export default function LoginForm() {
           <span>Login</span>
         )}
       </button>
+      
+<button type="button" className="w-full border border-gray-200 p-2 rounded-lg flex items-center justify-center" onClick={handleGoogleSignup}>
+        <FcGoogle className="w-5 h-5 mr-2" />
+</button>
       <p className="text-center text-sm mt-4">
         Don't have an account? <Link href="/signup" className="text-blue-600 hover:text-blue-800">Sign up</Link>
       </p>

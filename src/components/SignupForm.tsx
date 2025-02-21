@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Spinner from "./Spinner";
+import { validateEmail } from "@/utils/validateEmail";
+import { FcGoogle } from "react-icons/fc";
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -21,6 +23,12 @@ export default function SignupForm() {
     e.preventDefault();
     try {
       setLoading(true);
+      const { isValid, message } = validateEmail(formData.email);
+      if (!isValid) {
+        setError(message);
+        setLoading(false);
+        return;
+      }
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
@@ -47,6 +55,10 @@ export default function SignupForm() {
       console.error('Signup error:', error);
     }
   };
+
+  const handleGoogleSignup = () => {
+
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -81,7 +93,7 @@ export default function SignupForm() {
           id="password"
           value={formData.password}
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          className="mt-1 block w-full rounded-md  border border-gray-200 shadow-sm p-2"
+          className="mt-1 block w-full rounded-md border border-gray-200 shadow-sm p-2"
           required
         />
       </div>
@@ -108,6 +120,11 @@ export default function SignupForm() {
           <span>Sign Up</span>
         )}
       </button>
+
+<button type="button" className="w-full border border-gray-200 p-2 rounded-lg flex items-center justify-center" onClick={handleGoogleSignup}>
+        <FcGoogle className="w-5 h-5 mr-2" />
+</button>
+
       <p className="text-center text-sm">
         Already have an account? <Link href="/login" className="text-blue-600 hover:text-blue-800">Login</Link>
       </p>

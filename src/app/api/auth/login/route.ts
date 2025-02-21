@@ -1,16 +1,15 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import User from '@/lib/models/User';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export async function POST(req: Request) {
   try {
-    console.log("hello login")
     await dbConnect();
     const { email, password } = await req.json();
 
     const user = await User.findOne({ email });
+    console.log(user, "user");
     if (!user) {
       return NextResponse.json(
         { success: false, message: 'User not found' },
@@ -19,7 +18,7 @@ export async function POST(req: Request) {
     }
 
     const isPasswordValid = password === user.password;
-    console.log(isPasswordValid);
+    console.log(isPasswordValid, "isPasswordValid");
     if (!isPasswordValid) {
       return NextResponse.json(
         { success: false, message: 'Invalid password' },
