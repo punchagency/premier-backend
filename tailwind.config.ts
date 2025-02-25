@@ -9,9 +9,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        'premier-blue': '#142944',
+        'premier-orange': '#D67945',
       },
+      fontFamily: {
+        heebo: ['var(--font-heebo)', 'sans-serif'], 
+        'ranade': ['Ranade', 'sans-serif'],
+        'ranade-thin': ['Ranade', 'sans-serif'],
+        'ranade-light': ['Ranade', 'sans-serif'],
+        'ranade-regular': ['Ranade', 'sans-serif'],
+        'ranade-medium': ['Ranade', 'sans-serif'],
+        'ranade-bold': ['Ranade', 'sans-serif'],
+        'ranade-bold-italic': ['Ranade', 'sans-serif'],
+        'ranade-medium-italic': ['Ranade', 'sans-serif'],
+        'ranade-italic': ['Ranade', 'sans-serif'],
+        'ranade-light-italic': ['Ranade', 'sans-serif'],
+        'ranade-thin-italic': ['Ranade', 'sans-serif'],
+      },
+      
     },
   },
   plugins: [],

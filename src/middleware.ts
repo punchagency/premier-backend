@@ -9,7 +9,6 @@ export async function middleware(request: NextRequest) {
   const isPublicPath = publicPaths.includes(request.nextUrl.pathname);
 
   if (!token) {
-    // Redirect to login only if the request is not for a public path
     if (!isPublicPath) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
@@ -24,15 +23,12 @@ export async function middleware(request: NextRequest) {
 
     const currentPath = request.nextUrl.pathname;
 
-    // Check if the user is trying to access the admin dashboard
     if (currentPath === '/admin/dashboard') {
-      // Redirect to login if the user is not an admin
       if (payload?.role !== 'admin') {
         return NextResponse.redirect(new URL('/login', request.url));
       }
     }
 
-    // Redirect based on role
     if (payload?.role === 'admin' && currentPath !== '/admin/dashboard') {
       return NextResponse.redirect(new URL('/admin/dashboard', request.url));
     }
@@ -44,7 +40,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   } catch (error) {
     console.error('Token verification error:', error);
-    // Redirect to login only if the request is not for a public path
     if (!isPublicPath) {
       return NextResponse.redirect(new URL('/login', request.url));
     }

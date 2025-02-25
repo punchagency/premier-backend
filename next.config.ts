@@ -2,9 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   eslint: {
-    ignoreDuringBuilds: true  // This will ignore ESLint errors during build
+    ignoreDuringBuilds: true 
   },
-  /* config options here */
+  
   async headers() {
     return [
       {
@@ -24,6 +24,14 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn.prod.website-files.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'premierproperties.ae',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
       },
     ],
   },

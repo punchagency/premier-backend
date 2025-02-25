@@ -1,76 +1,70 @@
 import React, { useState } from "react";
 import ChangePasswordForm from "./ChangePasswordForm";
 import AccountDetailsDashboard from "./AccountDetails";
+import DeleteAccount from "./DeleteAccount";
+import NotificationPreferences from "./NotificationPreferences";
 
 const ProfileDashboard = () => {
-  const [activeTab, setActiveTab] = useState("Account");
+  const [activeTab, setActiveTab] = useState("Personal Details");
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col w-full">
-      {/* Navbar */}
-      <div className="bg-blue-800 text-white px-8 py-4 shadow-md">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Profile Dashboard</h1>
-          <div className="flex space-x-4">
-            <button className="hover:text-blue-300 transition-colors duration-200">
-              Home
-            </button>
-            <button className="hover:text-blue-300 transition-colors duration-200">
-              Settings
-            </button>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen flex flex-col space-y-[1vw]">
+      <h1 className="pt-[1.5vw] ps-[2.6vw] text-[1.458vw] font-normal text-premier-blue font-ranade">
+        Welcome 
+      </h1>
 
       {/* Tabs */}
-      <div className="bg-white shadow-md">
-        <div className="flex justify-start space-x-8 pl-16 py-4">
-          <button
-            className={`px-4 py-2 font-semibold ${
-              activeTab === "Account"
-                ? "border-b-2 border-blue-800 text-blue-800"
-                : "text-gray-600"
-            }`}
-            onClick={() => setActiveTab("Account")}
-          >
-            Account
-          </button>
-          <button
-            className={`px-4 py-2 font-semibold ${
-              activeTab === "Change Password"
-                ? "border-b-2 border-blue-800 text-blue-800"
-                : "text-gray-600"
-            }`}
-            onClick={() => setActiveTab("Change Password")}
-          >
-            Change Password
-          </button>
-          <button
-            className={`px-4 py-2 font-semibold ${
-              activeTab === "activity"
-                ? "border-b-2 border-blue-800 text-blue-800"
-                : "text-gray-600"
-            }`}
-            onClick={() => setActiveTab("activity")}
-          >
-            Activity
-          </button>
-        </div>
+
+      <div className="flex justify-start space-x-[2.6vw] pl-[2.6vw] py-[1vw]">
+        <button
+          className={`py-2 text-premier-blue ${
+            activeTab === "Personal Details"
+              ? "border-b-2 border-premier-orange text-premier-orange"
+              : "text-gray-600"
+          }`}
+          onClick={() => setActiveTab("Personal Details")}
+        >
+          Personal Details
+        </button>
+        <button
+          className={`py-2 text-premier-blue ${
+            activeTab === "Notification Preferences"
+              ? "border-b-2 border-premier-orange text-premier-orange"
+              : "text-gray-600"
+          }`}
+          onClick={() => setActiveTab("Notification Preferences")}
+        >
+          Notification Preferences
+        </button>
+        <button
+          className={`py-2 text-premier-blue ${
+            activeTab === "Change Password"
+              ? "border-b-2 border-premier-orange text-premier-orange"
+              : "text-gray-600"
+          }`}
+          onClick={() => setActiveTab("Change Password")}
+        >
+          Change Password
+        </button>
+        <button
+          className={`py-2 text-premier-blue ${
+            activeTab === "Delete Account"
+              ? "border-b-2 border-premier-orange text-premier-orange"
+              : "text-gray-600"
+          }`}
+          onClick={() => setActiveTab("Delete Account")}
+        >
+          Delete Account
+        </button>
       </div>
 
       {/* Tab Content */}
-      <div className="flex-1 p-8 pb-0">
-        {activeTab === "Account" && (
-          <AccountDetailsDashboard />
-        )}
+      <div className="px-[2.6vw] pb-[4.6vw]">
+        {activeTab === "Personal Details" && <AccountDetailsDashboard />}
+        {activeTab === "Notification Preferences" && <NotificationPreferences />}
         {activeTab === "Change Password" && <ChangePasswordForm />}
-        
-        {activeTab === "activity" && (
-          <div>
-            <h2 className="text-xl font-bold mb-4">Activity</h2>
-            <p>This is the activity content.</p>
-          </div>
-        )}
+
+        {activeTab === "Delete Account" && <DeleteAccount />}
       </div>
     </div>
   );

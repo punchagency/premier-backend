@@ -19,15 +19,26 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['user', 'admin'],
     default: 'user'
+  },
+  phone: {
+    type: String,
+  },
+  preferences: {
+    type: Object,
+    default: {
+      newsUpdates: false,
+      emailNotifications: false,
+      propertyAlerts: false,
+    }
   }
-}, { timestamps: true });
 
-// // Hash password before saving
-// userSchema.pre('save', async function(next) {
-//   if (!this.isModified('password')) return next();
-//   this.password = await bcrypt.hash(this.password, 12);
-//   next();
-// });
+}, { timestamps: true }); 
+
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 export default User;

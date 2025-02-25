@@ -1,43 +1,69 @@
-'use client';
-import { Property } from '@/types/property';
-import Image from 'next/image';
-
+"use client";
+import { Property } from "@/types/property";
+import Image from "next/image";
+import { useState } from "react";
+  import Save from "../../public/icons/Save";
+import Share from "../../public/icons/Share";
+import Cancel from "../../public/icons/Cancel";
 
 interface PropertyCardProps {
   property: Property;
   onDelete?: (id: string) => void;
 }
 
+export default function PropertyCard({
+  property,
+  onDelete,
+}: PropertyCardProps) {
 
-export default function PropertyCard({ property, onDelete }: PropertyCardProps) {
-  console.log(property, "property");
+  const [hover, setHover] = useState(false);
+
   return (
-    <div className="border rounded-lg shadow-md p-4 mb-4">
-            {typeof property.fieldData['card-thumnail']?.url === 'string' && (
-        <div className="relative w-full h-48">
+    <div className={`relative mb-4 overflow-hidden rounded-2xl  transition-all duration-500 hover:shadow-lg`} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+      {typeof property.fieldData["card-thumnail"]?.url === "string" && (
+        <div className="relative w-full h-[13.021vw] overflow-hidden">
           <Image
-            src={property.fieldData['card-thumnail']?.url  }
-            alt={property.fieldData['card-thumnail']?.alt  || 'Property'}
+            src={property.fieldData["card-thumnail"]?.url}
+            alt={property.fieldData["card-thumnail"]?.alt || "Property"}
             fill
-            style={{ objectFit: 'cover' }}
-            className="rounded-md"
+            style={{ objectFit: "cover" }}
+            className={`rounded-t-2xl transition-all duration-500 ${hover ? "scale-125": ""}`}
           />
         </div>
       )}
-      <p className="text-gray-600 mb-2">AED {property.fieldData['property-price-2']}</p>
-      <h3 className="text-xl font-semibold my-4">{property.fieldData['card-title'] }</h3>
-      <div className="flex justify-between items-center">
-        <span className="text-gray-500">{property.fieldData['property-location-name'] }</span>
-      </div>
-      <div className="flex justify-between items-center">
-        <span className="text-gray-500">{property.fieldData['property-location'] }</span>
+      <div className="p-[1.042vw]">
+        <div className={`p-[0.763vw] rounded-[0.763vw] bg-[#F4F5F7] ${hover ? "bg-[#d67a4533]" : ""} border border-[#1C3A600D]`}>
+          <div className={`text-premier-blue font-ranade text-[1.185vw] font-normal ${hover ? "text-premier-orange" : ""}`}>
+            <div className="flex items-center justify-between mb-[0.763vw] ">
+              <span className={`font-heebo bg-premier-blue ${hover ? "bg-premier-orange" : ""} rounded-full text-white px-[0.535vw] py-[0.223vw] text-[0.624vw]`}>
+                Ready
+              </span>
+              <div className="flex items-center gap-2">
+                <Share />
+                <Save />
+              </div>
+            </div>
+            AED {property.fieldData["property-price-2"]}
+          </div>
+        </div>
+        <div className="px-[0.338vw]">
+          <h3 className="text-[1.042vw] font-medium mb-2 mt-6 text-premier-blue">
+            {property.fieldData["card-title"]}
+          </h3>
+        <div className="flex justify-between items-center">
+          <span className="font-normal text-[0.833vw] text-[#677B94]">
+            {property.fieldData["property-location-name"]}
+          </span>
+        </div>
+        
+        </div>
       </div>
       {onDelete && (
         <button
-          onClick={() => onDelete(property.fieldData.slug )}
-          className="mt-4 text-red-600 hover:text-red-800"
+          onClick={() => onDelete(property.fieldData.slug)}
+          className="my-[1.042vw] mx-[0.885vw] text-red-600 hover:text-red-800 absolute top-0 right-0"
         >
-          Remove from saved
+          <Cancel />
         </button>
       )}
     </div>

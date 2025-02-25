@@ -6,7 +6,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Spinner from "./Spinner";
 import { validateEmail } from "@/utils/validateEmail";
-import { FcGoogle } from "react-icons/fc";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { MdOutlineMailOutline } from "react-icons/md";
+import { FiUser } from "react-icons/fi";
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -49,84 +51,116 @@ export default function SignupForm() {
         setError(data.message || 'Signup failed');
         setLoading(false);
       }
-    } catch (error: unknown) { // Change err to error and add type
+    } catch (error: unknown) {
       setLoading(false);
       setError('Signup failed. Please try again.');
       console.error('Signup error:', error);
     }
   };
 
-  const handleGoogleSignup = () => {
+  const [showPassword, setShowPassword] = useState(false);
 
-  }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className="w-[23.906vw] h-[23.906vw]"
+    >
       {error && <div className="text-red-500">{error}</div>}
-      {loading && <div className="text-red-500"><Spinner /></div>}
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium">Name</label>
+      <div className="space-y-2">
+      <div className="relative">
         <input
           type="text"
           id="name"
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          className="mt-1 block w-full rounded-md  border border-gray-200 shadow-sm p-2"
+          className="w-full p-[1.042vw]  my-2 border border-[#E8EBEF] h-[3.177vw] rounded-[0.833vw] focus:outline-none"
           required
+          placeholder="Name"
+
         />
+        <FiUser className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20}/>
       </div>
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium">Email</label>
+      <div className="relative">
         <input
           type="email"
           id="email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          className="mt-1 block w-full rounded-md  border border-gray-200 shadow-sm p-2"
+          className="w-full p-[1.042vw]  my-2 border border-[#E8EBEF] h-[3.177vw] rounded-[0.833vw] focus:outline-none"
           required
+          placeholder="Email Address"
         />
+        <MdOutlineMailOutline className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20}/>
       </div>
-      <div>
-        <label htmlFor="password" className="block text-sm font-medium">Password</label>
+
+      <div className="relative">
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           id="password"
           value={formData.password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          className="mt-1 block w-full rounded-md border border-gray-200 shadow-sm p-2"
+          onChange={(e) =>
+            setFormData({ ...formData, password: e.target.value })
+          }
+          className="w-full p-[1.042vw]  my-2 border border-[#E8EBEF] h-[3.177vw] rounded-[0.833vw] focus:outline-none"
           required
+          placeholder="Password"
+
         />
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+        >
+          {showPassword ? (
+            <AiOutlineEyeInvisible size={20} />
+          ) : (
+            <AiOutlineEye size={20} />
+          )}
+        </button>
       </div>
-      <button
+          </div>
+          <button
         type="submit"
         disabled={loading || isSuccess}
-        className={`w-full rounded-md py-2 flex items-center justify-center transition-all duration-300 ${
-          isSuccess 
-            ? 'bg-green-600 hover:bg-green-700' 
-            : 'bg-blue-600 hover:bg-blue-700'
+        className={`w-[23.906vw] mt-[3.042vw] text-white p-[0.625vw] rounded-[0.833vw] flex items-center justify-center ${
+          isSuccess ? "bg-green-600 hover:bg-green-700" : "bg-premier-blue"
         } text-white`}
       >
         {loading ? (
           <>
-            <Spinner  /> 
-            <span>Signing Up...</span>
+            <span>Signing up...</span>
           </>
         ) : isSuccess ? (
           <>
-            <BsCheck2Circle className="w-5 h-5 mr-2" />
-            <span>Signed Up</span>
+            <span className="flex items-center"><BsCheck2Circle className="w-5 h-5 mr-2" />Signed up</span>
           </>
         ) : (
-          <span>Sign Up</span>
+          <span>Sign up</span>
         )}
       </button>
-
-<button type="button" className="w-full border border-gray-200 p-2 rounded-lg flex items-center justify-center" onClick={handleGoogleSignup}>
-        <FcGoogle className="w-5 h-5 mr-2" />
-</button>
-
-      <p className="text-center text-sm">
-        Already have an account? <Link href="/login" className="text-blue-600 hover:text-blue-800">Login</Link>
+      <div className="flex justify-center items-center mt-[1.458vw]">
+        <input
+          type="checkbox"
+          name="Privacy Policy"
+          id="Privacy Policy"
+          className="mr-[0.625vw] border border-premier-blue rounded-[0.167vw] w-[0.833vw] h-[0.833vw] accent-premier-blue focus:outline-premier-blue focus:ring-premier-blue"
+          />
+        <label
+          htmlFor="Privacy Policy"
+          className="text-[0.833vw] text-[#97A4B6]"
+          >
+          By clicking here, you agree to our{" "}
+          <Link href="#" className="text-premier-blue font-medium hover:underline">
+            Privacy Policy
+          </Link>
+        </label>
+      </div>
+      <p className="text-center text-[#97A4B6] text-[0.833vw] mt-[5.042vw]">
+        Already have an account?{" "}
+        <Link href="/login" className="text-premier-blue hover:underline">
+          Login
+        </Link>
       </p>
     </form>
   );

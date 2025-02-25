@@ -1,21 +1,288 @@
+@font-face {
+  font-family: 'Ranade-Thin';
+  src: url('/fonts/Ranade/Ranade-Thin.woff2') format('woff2'),
+       url('/fonts/Ranade/Ranade-Thin.woff') format('woff'),
+       url('/fonts/Ranade/Ranade-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Ranade-ThinItalic';
+  src: url('/fonts/Ranade/Ranade-ThinItalic.woff2') format('woff2'),
+       url('/fonts/Ranade/Ranade-ThinItalic.woff') format('woff'),
+       url('/fonts/Ranade/Ranade-ThinItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Ranade-Light';
+  src: url('/fonts/Ranade/Ranade-Light.woff2') format('woff2'),
+       url('/fonts/Ranade/Ranade-Light.woff') format('woff'),
+       url('/fonts/Ranade/Ranade-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Ranade-LightItalic';
+  src: url('/fonts/Ranade/Ranade-LightItalic.woff2') format('woff2'),
+       url('/fonts/Ranade/Ranade-LightItalic.woff') format('woff'),
+       url('/fonts/Ranade/Ranade-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Ranade-Regular';
+  src: url('/fonts/Ranade/Ranade-Regular.woff2') format('woff2'),
+       url('/fonts/Ranade/Ranade-Regular.woff') format('woff'),
+       url('/fonts/Ranade/Ranade-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Ranade-Italic';
+  src: url('/fonts/Ranade/Ranade-Italic.woff2') format('woff2'),
+       url('/fonts/Ranade/Ranade-Italic.woff') format('woff'),
+       url('/fonts/Ranade/Ranade-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Ranade-Medium';
+  src: url('/fonts/Ranade/Ranade-Medium.woff2') format('woff2'),
+       url('/fonts/Ranade/Ranade-Medium.woff') format('woff'),
+       url('/fonts/Ranade/Ranade-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Ranade-MediumItalic';
+  src: url('/fonts/Ranade/Ranade-MediumItalic.woff2') format('woff2'),
+       url('/fonts/Ranade/Ranade-MediumItalic.woff') format('woff'),
+       url('/fonts/Ranade/Ranade-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Ranade-Bold';
+  src: url('/fonts/Ranade/Ranade-Bold.woff2') format('woff2'),
+       url('/fonts/Ranade/Ranade-Bold.woff') format('woff'),
+       url('/fonts/Ranade/Ranade-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+} 
+@font-face {
+  font-family: 'Ranade-BoldItalic';
+  src: url('/fonts/Ranade/Ranade-BoldItalic.woff2') format('woff2'),
+       url('/fonts/Ranade/Ranade-BoldItalic.woff') format('woff'),
+       url('/fonts/Ranade/Ranade-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+  font-style: italic;
+}
+/**
+* This is a variable font
+* You can control variable axes as shown below:
+* font-variation-settings: wght 700.0;
+*
+* available axes:
+'wght' (range from 100.0 to 700.0
+*/
+@font-face {
+  font-family: 'Ranade-Variable';
+  src: url('/fonts/Ranade/Ranade-Variable.woff2') format('woff2'),
+       url('/fonts/Ranade/Ranade-Variable.woff') format('woff'),
+       url('/fonts/Ranade/Ranade-Variable.ttf') format('truetype');
+  font-weight: 100 700;
+  font-display: swap;
+  font-style: normal;
+}
+/**
+* This is a variable font
+* You can control variable axes as shown below:
+* font-variation-settings: wght 700.0;
+*
+* available axes:
+'wght' (range from 100.0 to 700.0
+*/
+@font-face {
+  font-family: 'Ranade-VariableItalic';
+  src: url('/fonts/Ranade/Ranade-VariableItalic.woff2') format('woff2'),
+       url('/fonts/Ranade/Ranade-VariableItalic.woff') format('woff'),
+       url('/fonts/Ranade/Ranade-VariableItalic.ttf') format('truetype');
+  font-weight: 100 700;
+  font-display: swap;
+  font-style: italic;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
+  --color-primary: #142944;
+  --color-secondary: #D67945;
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --background:#ededed;
-    --foreground: #0a0a0a;
-  }
+.bg-background {
+  background-image: url('/background.png');
+  background-size: cover;
+  background-position: center;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Button Variants */
+  .btn-primary {
+    @apply bg-premier-blue text-white px-6 py-2 rounded-md 
+           hover:bg-premier-blue/90 transition-colors;
+  }
+
+  .btn-secondary {
+    @apply bg-premier-orange text-white px-6 py-2 rounded-md 
+           hover:bg-premier-orange/90 transition-colors;
+  }
+
+  .btn-outline-primary {
+    @apply border-2 border-premier-blue text-premier-blue px-6 py-2 rounded-md 
+           hover:bg-premier-blue hover:text-white transition-colors;
+  }
+
+  .btn-outline-secondary {
+    @apply border-2 border-premier-orange text-premier-orange px-6 py-2 rounded-md 
+           hover:bg-premier-orange hover:text-white transition-colors;
+  }
+
+  /* Background Colors */
+  .bg-gradient-primary {
+    @apply bg-gradient-to-r from-premier-blue to-premier-blue/80;
+  }
+
+  .bg-gradient-secondary {
+    @apply bg-gradient-to-r from-premier-orange to-premier-orange/80;
+  }
+
+  /* Text Colors */
+  .text-primary {
+    @apply text-premier-blue;
+  }
+
+  .text-secondary {
+    @apply text-premier-orange;
+  }
+
+  /* Border Colors */
+  .border-primary {
+    @apply border-premier-blue;
+  }
+
+  .border-secondary {
+    @apply border-premier-orange;
+  }
+
+  /* Hover Effects */
+  .hover-primary {
+    @apply hover:text-premier-blue hover:border-premier-blue transition-colors;
+  }
+
+  .hover-secondary {
+    @apply hover:text-premier-orange hover:border-premier-orange transition-colors;
+  }
+
+  /* Card Styles */
+  .card-primary {
+    @apply bg-white border border-gray-200 rounded-lg p-6 
+           hover:border-premier-blue transition-colors;
+  }
+
+  .card-secondary {
+    @apply bg-white border border-gray-200 rounded-lg p-6 
+           hover:border-premier-orange transition-colors;
+  }
+
+  /* Input Styles */
+  .input-primary {
+    @apply border-2 rounded-md px-4 py-2 focus:outline-none
+           focus:border-premier-blue transition-colors;
+  }
+
+  .input-secondary {
+    @apply border-2 rounded-md px-4 py-2 focus:outline-none
+           focus:border-premier-orange transition-colors;
+  }
+
+  /* Badge Styles */
+  .badge-primary {
+    @apply bg-premier-blue/10 text-premier-blue px-3 py-1 rounded-full 
+           text-sm font-medium;
+  }
+
+  .badge-secondary {
+    @apply bg-premier-orange/10 text-premier-orange px-3 py-1 rounded-full 
+           text-sm font-medium;
+  }
+
+  /* Link Styles */
+  .link-primary {
+    @apply text-premier-blue hover:text-premier-blue/80 underline 
+           transition-colors;
+  }
+
+  .link-secondary {
+    @apply text-premier-orange hover:text-premier-orange/80 underline 
+           transition-colors;
+  }
+
+  /* Section Styles */
+  .section-primary {
+    @apply bg-premier-blue/5 border-l-4 border-premier-blue p-4;
+  }
+
+  .section-secondary {
+    @apply bg-premier-orange/5 border-l-4 border-premier-orange p-4;
+  }
+
+  /* Alert/Notice Styles */
+  .alert-primary {
+    @apply bg-premier-blue/10 text-premier-blue p-4 rounded-md;
+  }
+
+  .alert-secondary {
+    @apply bg-premier-orange/10 text-premier-orange p-4 rounded-md;
+  }
+
+  .icon-primary {
+    @apply stroke-[#B9C2CE] hover:stroke-premier-blue active:stroke-premier-blue/80 
+           transition-colors cursor-pointer;
+  }
+
+  .icon-secondary {
+    @apply stroke-[#B9C2CE] hover:stroke-premier-orange active:stroke-premier-orange/80 
+           transition-colors cursor-pointer;
+  }
+
+  .icon-white {
+    @apply stroke-white hover:stroke-white/80 active:stroke-white/60 
+           transition-colors cursor-pointer;
+  }
+
+  /* Icon Button Styles (for icons with backgrounds) */
+  .icon-btn-primary {
+    @apply p-2 rounded-md hover:bg-premier-blue/10 active:bg-premier-blue/20 
+           transition-colors cursor-pointer;
+  }
+
+  .icon-btn-secondary {
+    @apply p-2 rounded-md hover:bg-premier-orange/10 active:bg-premier-orange/20 
+           transition-colors cursor-pointer;
+  }
 }

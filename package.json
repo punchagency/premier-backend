@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
+    "@reduxjs/toolkit": "^2.6.0",
     "axios": "^1.7.9",
     "bcryptjs": "^3.0.0",
     "flowbite-react": "^0.10.2",
@@ -18,8 +19,12 @@
     "mongoose": "^8.10.0",
     "nanoid": "^3.3.8",
     "next": "15.1.7",
+    "next-auth": "^4.24.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-phone-input-2": "^2.15.1",
+    "react-redux": "^9.2.0",
+    "redux-persist": "^6.0.0",
     "webflow-api": "^3.1.0"
   },
   "devDependencies": {

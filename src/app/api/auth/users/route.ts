@@ -5,13 +5,12 @@ import User from '@/lib/models/User';
 export async function GET(req: NextRequest): Promise<NextResponse> {
   await dbConnect();
   try {
-    const user = await User.find({});
-    if (!user) {
+    const users = await User.find({});
+    if (!users) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
-    console.log(user)
 
-    return NextResponse.json(user, { status: 200 });
+    return NextResponse.json(users, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
   }

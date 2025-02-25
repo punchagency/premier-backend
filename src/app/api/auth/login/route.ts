@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import User from '@/lib/models/User';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 export async function POST(req: Request) {
   try {
@@ -9,7 +10,6 @@ export async function POST(req: Request) {
     const { email, password } = await req.json();
 
     const user = await User.findOne({ email });
-    console.log(user, "user");
     if (!user) {
       return NextResponse.json(
         { success: false, message: 'User not found' },
@@ -17,8 +17,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const isPasswordValid = password === user.password;
-    console.log(isPasswordValid, "isPasswordValid");
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return NextResponse.json(
         { success: false, message: 'Invalid password' },
@@ -33,17 +32,28 @@ export async function POST(req: Request) {
     );
 
     const response = NextResponse.json(
-      { success: true, message: 'Login successful', role: user?.role },
+      { success: true, message: 'Login successful', user: user },
       { status: 200 }
     );
 
-    response.cookies.set('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Ensure this is true in production
-      sameSite: 'none', // Required for cross-domain cookies
-      domain: '.premierproperties.ae', // Set to the parent domain
-      maxAge: 60 * 60 // 1 hour
-    });
+    if (process.env.NODE_ENV === 'production') {
+      response.cookies.set('token', token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        domain: '.premierproperties.ae',
+        maxAge: 60 * 60
+      });
+    } else {
+      // Development environment settings
+      response.cookies.set('token', token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax',
+        maxAge: 60 * 60
+      });
+    }
+
     return response;
   } catch (error) {
     console.error('Login error:', error);
