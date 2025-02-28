@@ -6,16 +6,14 @@ interface PhoneInputProps {
   value: string;
   onChange: (phone: string) => void;
   placeholder?: string;
-  name: string;
 }
 
-const CustomPhoneInput: React.FC<PhoneInputProps> = ({ value, onChange, placeholder, name }) => {
+const CustomPhoneInput: React.FC<PhoneInputProps> = ({ value, onChange, placeholder }) => {
   return (
     <PhoneInput
       country={'ae'} // Default to UAE
       value={value}
       onChange={onChange}
-      name={name}
       placeholder={`${placeholder ?? "Phone Number"} `}
       inputStyle={{
         width: '100%',

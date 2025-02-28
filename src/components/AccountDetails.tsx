@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import CustomPhoneInput from "./PhoneInput";
 import { updateUserDetails } from "@/redux/features/userSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -125,7 +124,6 @@ const AccountDetailsDashboard = () => {
                 <div className="">
                   <CustomPhoneInput
                     value={user?.phone || ""}
-                    name="phone"
                     placeholder="Your Number *"
                     onChange={(value) => setFieldValue("phone", value)}
                   />
