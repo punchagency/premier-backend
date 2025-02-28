@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import ChangePasswordForm from "./ChangePasswordForm";
 import AccountDetailsDashboard from "./AccountDetails";
 import DeleteAccount from "./DeleteAccount";
-import NotificationPreferences from "./NotificationPreferences";
+import { useAppSelector } from "@/redux/hooks";
+import SubscriptionPreferences from "./SubscriptionPreferences";
 
 const ProfileDashboard = () => {
   const [activeTab, setActiveTab] = useState("Personal Details");
+  const { user } = useAppSelector((state) => state.user);
 
   return (
     <div className="min-h-screen flex flex-col space-y-[1vw]">
-      <h1 className="pt-[1.5vw] ps-[2.6vw] text-[1.458vw] font-normal text-premier-blue font-ranade">
-        Welcome 
+      <h1 className="mt-[3.5vw] ps-[2.6vw] text-[1.458vw] font-normal text-premier-blue font-ranade">
+        Welcome {user?.name}
       </h1>
 
       {/* Tabs */}
@@ -28,13 +30,13 @@ const ProfileDashboard = () => {
         </button>
         <button
           className={`py-2 text-premier-blue ${
-            activeTab === "Notification Preferences"
+            activeTab === "Subscription Preferences"
               ? "border-b-2 border-premier-orange text-premier-orange"
               : "text-gray-600"
           }`}
-          onClick={() => setActiveTab("Notification Preferences")}
+          onClick={() => setActiveTab("Subscription Preferences")}
         >
-          Notification Preferences
+          Subscription Preferences
         </button>
         <button
           className={`py-2 text-premier-blue ${
@@ -61,9 +63,8 @@ const ProfileDashboard = () => {
       {/* Tab Content */}
       <div className="px-[2.6vw] pb-[4.6vw]">
         {activeTab === "Personal Details" && <AccountDetailsDashboard />}
-        {activeTab === "Notification Preferences" && <NotificationPreferences />}
+        {activeTab === "Subscription Preferences" && <SubscriptionPreferences />}
         {activeTab === "Change Password" && <ChangePasswordForm />}
-
         {activeTab === "Delete Account" && <DeleteAccount />}
       </div>
     </div>

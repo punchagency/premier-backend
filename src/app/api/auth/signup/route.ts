@@ -1,12 +1,27 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import User from '@/lib/models/User';
 import { validateEmail } from '@/utils/validateEmail';
+import { jwtVerify } from 'jose';
 
-export async function POST(req: Request) {
+export async function GET(req: NextRequest) {
   try {
     await dbConnect();
-    const { name, email, password } = await req.json();
+    const token = req.nextUrl.searchParams.get('token');
+    console.log(token, "token");
+
+    const secretKey = new TextEncoder().encode(process.env.JWT_SECRET);
+    console.log(token, "token");
+    const{ payload } = await jwtVerify(token!, secretKey);
+    console.log(payload, "payload");
+    if (!payload) {
+      return NextResponse.json({
+        success: false,
+        message: 'Invalid token'
+      }, { status: 400 });
+    }
+
+    const { name, email, password } = payload as unknown as { name: string; email: string; password: string };
     
     const { isValid, message } = validateEmail(email);
     if (!isValid) {
@@ -24,12 +39,11 @@ export async function POST(req: Request) {
       );
     }
 
-    await User.create({ name, email, password });
-
-    return NextResponse.json(
-      { success: true, message: 'User created successfully' },
-      { status: 201 }
-    );
+    const user = await User.create({ name, email, password });
+    console.log(user, "user");
+    if (user) {
+      return NextResponse.redirect(new URL('/login', req.url));
+    }
   } catch (error) {
     console.error('Signup error:', error);
     return NextResponse.json(

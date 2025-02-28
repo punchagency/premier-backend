@@ -6,6 +6,11 @@ export interface UserType {
   email?: string;
   phone?: string;
   role?: string;
+  preferences?: {
+    newsUpdates: boolean;
+    emailNotifications: boolean;
+    propertyAlerts: boolean;
+  };
 }
 
 interface UserState {
@@ -22,6 +27,44 @@ const initialState: UserState = {
   error: null,
 };
 
+export const updateUserPreferences = createAsyncThunk(
+  'user/updatePreferences',
+  async (
+    { email, preferences }: { email: string,  preferences: { 
+      newsUpdates: boolean, 
+      emailNotifications: boolean, 
+      propertyAlerts: boolean 
+    } },
+    { getState, rejectWithValue }
+  ) => {
+    try {
+      const { user } = (getState() as any).user;
+      
+      if (!user?.email) {
+        return rejectWithValue('User not authenticated');
+      }
+      
+      const response = await fetch('/api/user/update/preferences', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email, preferences: preferences }),
+      });
+      
+      const data = await response.json();
+      
+      if (!data.success) {
+        return rejectWithValue(data.message);
+      }
+      
+      return data.user;
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Failed to update user details');
+    }
+  }
+  );
+
 export const updateUserDetails = createAsyncThunk(
   'user/updateDetails',
   async (
@@ -35,7 +78,7 @@ export const updateUserDetails = createAsyncThunk(
         return rejectWithValue('User not authenticated');
       }
       
-      const response = await fetch('/api/user/update', {
+      const response = await fetch('/api/user/update/credentials', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +86,6 @@ export const updateUserDetails = createAsyncThunk(
         body: JSON.stringify({ email: user.email, name, phone }),
       });
       
-      console.log(response, "response");
       const data = await response.json();
       
       if (!data.success) {
@@ -62,7 +104,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserType | null>) => {
-      console.log(action.payload, "action.payload");
       state.user = action.payload;
       state.isAuthenticated = !!action.payload;
       state.error = null;
@@ -87,6 +128,18 @@ const userSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(updateUserDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(updateUserPreferences.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserPreferences.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(updateUserPreferences.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

@@ -2,16 +2,23 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import UserCard from '@/lib/models/User_Card';
 import Properties from '@/lib/models/Properties';
-import { jwtVerify } from 'jose';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../../auth/auth-options';
 
 export async function DELETE(request: NextRequest) {
   try {
     await dbConnect();
     const { slug } = await request.json();
-    const token = request.cookies.get("token")?.value;
-    const jwtSecret = new TextEncoder().encode(process.env.JWT_SECRET);
-    const { payload } = await jwtVerify(token!, jwtSecret);
-    const userId = payload.userId;
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json({ 
+        success: false, 
+        message: "Unauthorized" 
+      }, { status: 401 });
+    }
+
+    const userId = session.user.id;
     if (!userId) {
       return NextResponse.json({ 
         success: false, 

@@ -1,6 +1,5 @@
 import SignupForm from '@/components/SignupForm';
 import BlueLogo from '../../../public/images/blueLogo';
-import ReturnToWebsite from '@/components/ReturnToWebsite';
 import Background from "../../../public/images/background.png"
 export default function SignupPage() {
   return (

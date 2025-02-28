@@ -6,17 +6,17 @@ interface PhoneInputProps {
   value: string;
   onChange: (phone: string) => void;
   placeholder?: string;
+  name: string;
 }
 
-const CustomPhoneInput: React.FC<PhoneInputProps> = ({ value, onChange, placeholder }) => {
-  console.log(value, "value");
+const CustomPhoneInput: React.FC<PhoneInputProps> = ({ value, onChange, placeholder, name }) => {
   return (
     <PhoneInput
       country={'ae'} // Default to UAE
-      onChange={onChange}
-      placeholder={`|  ${placeholder ?? "Phone Number"} `}
       value={value}
-
+      onChange={onChange}
+      name={name}
+      placeholder={`${placeholder ?? "Phone Number"} `}
       inputStyle={{
         width: '100%',
         height: '3.177vw',
@@ -28,7 +28,7 @@ const CustomPhoneInput: React.FC<PhoneInputProps> = ({ value, onChange, placehol
       }}
       buttonStyle={{
         border: '1px solid #E8EBEF',
-        borderRight: 'none',
+        borderRight: '1px solid #E8EBEF',
         borderRadius: '0.833vw 0 0 0.833vw',
         backgroundColor: 'white',
         paddingLeft: '0.642vw',

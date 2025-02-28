@@ -1,6 +1,23 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+interface User {
+  name: string;
+  email: string;
+  password?: string;
+  googleId?: string;
+  emailVerified?: Date;
+  preferences: {
+    newsUpdates: boolean;
+    emailNotifications: boolean;
+    propertyAlerts: boolean;
+  };
+  role: string;
+  phone: string;
+  image: string;
+}
+
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -13,7 +30,9 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Password is required']
+    required: function(this: User) {
+      return !this.googleId; // Password is required only if googleId is not present
+    }
   },
   role: {
     type: String,
@@ -23,6 +42,17 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
   },
+  image: {
+    type: String,
+  },
+  googleId: {
+    type: String,
+  },
+  
+emailVerified: {
+  type: Date,
+},
+
   preferences: {
     type: Object,
     default: {
@@ -36,7 +66,9 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 12);
+  if (typeof this.password === 'string') {
+    this.password = await bcrypt.hash(this.password, 12);
+  }
   next();
 });
 

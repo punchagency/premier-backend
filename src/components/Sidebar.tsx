@@ -5,6 +5,7 @@ import ReturnToWebsite from "../../public/icons/ReturnToWebsite";
 import Profile from "../../public/icons/Profile";
 import Logout from "../../public/icons/Logout";
 import Dashboard from "../../public/icons/Dashboard";
+import LogoutModal from "./LogoutModal";
 
 
 const Sidebar = ({
@@ -24,15 +25,17 @@ const Sidebar = ({
     logout: false
   });
 
+  const [open, setOpen] = useState(false);
+
   return (
    
-      <div className="fixed top-0 left-0 w-[18.177vw] bg-premier-blue h-screen p-20 text-[#B9C2CE] font-normal">
+      <div className="fixed top-0 left-0 w-[18.177vw] bg-premier-blue h-screen p-[4.167vw] text-[#B9C2CE] font-normal z-10">
         <Logo  /> 
-        <ul className="flex flex-col gap-2 mt-16">
+        <ul className="flex flex-col gap-2 mt-[4.167vw]">
           <li className="mb-2">
             <Link
               href={"https://www.premierproperties.ae/"}
-              className="px-4 py-2 rounded hover:text-white text-nowrap flex items-center gap-[1.302vw] "
+              className="px-4 py-2 text-[0.833vw] rounded hover:text-white text-nowrap flex items-center gap-[1.302vw] "
               onClick={() => setTab("Return to Website")}
               onMouseEnter={() => setHoverStates({ ...hoverStates, website: true })}
               onMouseLeave={() => setHoverStates({ ...hoverStates, website: false })}
@@ -45,7 +48,7 @@ const Sidebar = ({
             <Link
               href="#"
               onClick={() => setTab("dashboard")}
-              className={`px-4  py-2 rounded flex items-center gap-[1.302vw] hover:text-white ${tab === "dashboard" ? "text-white font-semibold" : ""}`}
+              className={`px-4  py-2 text-[0.833vw] rounded flex items-center gap-[1.302vw] hover:text-white ${tab === "dashboard" ? "text-white font-semibold" : ""}`}
               onMouseEnter={() => setHoverStates({ ...hoverStates, dashboard: true })}
                 onMouseLeave={() => setHoverStates({ ...hoverStates, dashboard: false })}
             >
@@ -57,7 +60,7 @@ const Sidebar = ({
             <Link
               href="#"
               onClick={() => setTab("profile")}
-              className={`px-4 py-2 rounded flex items-center gap-[1.302vw] hover:text-white ${tab === "profile" ? "text-white font-semibold" : ""}`} 
+              className={`px-4 py-2 text-[0.833vw] rounded flex items-center gap-[1.302vw] hover:text-white ${tab === "profile" ? "text-white font-semibold" : ""}`} 
               onMouseEnter={() => setHoverStates({ ...hoverStates, profile: true })}
                 onMouseLeave={() => setHoverStates({ ...hoverStates, profile: false })}
             >
@@ -69,14 +72,15 @@ const Sidebar = ({
           <li className="mb-2">
             <Link
               href="#"
-              onClick={handleLogout}
-              className="px-4 py-2 rounded flex items-center gap-[1.302vw] hover:text-white"
+              onClick={() => setOpen(true)}
+              className="px-4 py-2 text-[0.833vw] rounded flex items-center gap-[1.302vw] hover:text-white"
               onMouseEnter={() => setHoverStates({ ...hoverStates, logout: true })}   
               onMouseLeave={() => setHoverStates({ ...hoverStates, logout: false })}
             >
               <Logout active={tab === "logout"} hover={hoverStates.logout} />
               Logout
             </Link>
+            {open && <LogoutModal open={open} setOpen={setOpen} handleLogout={handleLogout} />}
           </li>
         </ul>
       </div>

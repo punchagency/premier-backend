@@ -4,6 +4,8 @@ import { Property } from "@/types/property";
 import { useRouter } from "next/navigation";
 import SideBar from "@/components/Sidebar";
 import DashboardContent from "@/components/DashboardContent";
+import CardSkeleton from "@/components/CardSkeleton";
+import { signOut } from "next-auth/react";
 
 export default function Dashboard() {
   const [properties, setProperties] = useState<Property[]>([]);
@@ -56,10 +58,10 @@ export default function Dashboard() {
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/auth/logout", {
-        credentials: "include",
+      await signOut({
+        redirect: true, // Redirect after successful logout
+        callbackUrl: "/login", // Redirect to home page after logout
       });
-      router.push("/login");
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -69,15 +71,34 @@ export default function Dashboard() {
     loadProperties();
   }, []);
 
-
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div>
+        <div className="animate-pulse flex">
+          <div className="h-screen w-[18.177vw] bg-gray-400 rounded-md"></div>
+          <div className="flex flex-col">
+            <div className="h-[1.7vw] w-[15vw] m-[3vw] mt-[3.5vw] mb-0 bg-gray-400 rounded-md mt-10"></div>
+            <div className="h-[1.7vw] w-[10vw] ml-[3vw] bg-gray-400 rounded-md mt-10"></div>
+          <div className="grid m-[3vw] w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+          </div>
+          </div>
+        </div>
+      </div>
+    );
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="flex w-full h-full">
       <SideBar handleLogout={handleLogout} setTab={setTab} tab={tab} />
-  
-   <DashboardContent tab={tab} properties={properties} handleDelete={handleDelete} />
+
+      <DashboardContent
+        tab={tab}
+        properties={properties}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }

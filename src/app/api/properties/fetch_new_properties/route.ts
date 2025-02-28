@@ -7,15 +7,7 @@ import { WebflowClient } from "webflow-api";
 
 const accessToken = process.env.WEBFLOW_ACCESS_TOKEN as string;
 
-// Collection IDs for different property types
-// const COLLECTION_IDS = [
-//   "6724d7d499fda09820d6499d", // Buy Properties
-//   "67349d368065d9f52101c3b0", // Rent Properties
-//   "6734c2d6e92bdb1fcc0c5334", // New Projects
-// ];
 const COLLECTION_IDS = process.env.COLLECTION_IDS?.split(",") || [];
-
-console.log(COLLECTION_IDS, "COLLECTION_IDS");
 
 export async function GET(request: NextRequest) {
   try {

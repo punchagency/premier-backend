@@ -2,8 +2,6 @@
 import { Property } from "@/types/property";
 import Image from "next/image";
 import { useState } from "react";
-  import Save from "../../public/icons/Save";
-import Share from "../../public/icons/Share";
 import Cancel from "../../public/icons/Cancel";
 
 interface PropertyCardProps {
@@ -15,11 +13,22 @@ export default function PropertyCard({
   property,
   onDelete,
 }: PropertyCardProps) {
-
   const [hover, setHover] = useState(false);
 
+  const formatPrice = (price: number) => {
+    return price.toLocaleString("en-US", {
+      style: "currency",
+      currency: "AED",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
+  };
   return (
-    <div className={`relative mb-4 overflow-hidden rounded-2xl  transition-all duration-500 hover:shadow-lg`} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+    <div
+      className={`relative mb-4 overflow-hidden rounded-2xl  transition-all duration-500 hover:shadow-lg bg-white`}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
       {typeof property.fieldData["card-thumnail"]?.url === "string" && (
         <div className="relative w-full h-[13.021vw] overflow-hidden">
           <Image
@@ -27,35 +36,44 @@ export default function PropertyCard({
             alt={property.fieldData["card-thumnail"]?.alt || "Property"}
             fill
             style={{ objectFit: "cover" }}
-            className={`rounded-t-2xl transition-all duration-500 ${hover ? "scale-125": ""}`}
+            className={`rounded-t-2xl transition-all duration-500 ${
+              hover ? "scale-125" : ""
+            }`}
           />
         </div>
       )}
       <div className="p-[1.042vw]">
-        <div className={`p-[0.763vw] rounded-[0.763vw] bg-[#F4F5F7] ${hover ? "bg-[#d67a4533]" : ""} border border-[#1C3A600D]`}>
-          <div className={`text-premier-blue font-ranade text-[1.185vw] font-normal ${hover ? "text-premier-orange" : ""}`}>
+        <div
+          className={`p-[0.763vw] rounded-[0.763vw] bg-[#F4F5F7] ${
+            hover ? "bg-[#d67a4533]" : ""
+          } border border-[#1C3A600D]`}
+        >
+          <div
+            className={`text-premier-blue font-ranade text-[1.185vw] font-normal ${
+              hover ? "text-premier-orange" : ""
+            }`}
+          >
             <div className="flex items-center justify-between mb-[0.763vw] ">
-              <span className={`font-heebo bg-premier-blue ${hover ? "bg-premier-orange" : ""} rounded-full text-white px-[0.535vw] py-[0.223vw] text-[0.624vw]`}>
+              <span
+                className={`font-heebo bg-premier-blue ${
+                  hover ? "bg-premier-orange" : ""
+                } rounded-full text-white px-[0.535vw] py-[0.223vw] text-[0.624vw]`}
+              >
                 Ready
               </span>
-              <div className="flex items-center gap-2">
-                <Share />
-                <Save />
-              </div>
             </div>
-            AED {property.fieldData["property-price-2"]}
+            {formatPrice(property.fieldData["property-price-2"])}
           </div>
         </div>
         <div className="px-[0.338vw]">
           <h3 className="text-[1.042vw] font-medium mb-2 mt-6 text-premier-blue">
             {property.fieldData["card-title"]}
           </h3>
-        <div className="flex justify-between items-center">
-          <span className="font-normal text-[0.833vw] text-[#677B94]">
-            {property.fieldData["property-location-name"]}
-          </span>
-        </div>
-        
+          <div className="flex justify-between items-center">
+            <span className="font-normal text-[0.833vw] text-[#677B94]">
+              {property.fieldData["property-location-name"]}
+            </span>
+          </div>
         </div>
       </div>
       {onDelete && (

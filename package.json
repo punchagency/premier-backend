@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@react-icons/all-files": "^4.1.0",
     "@reduxjs/toolkit": "^2.6.0",
+    "@sendgrid/mail": "^8.1.4",
     "axios": "^1.7.9",
     "bcryptjs": "^3.0.0",
     "flowbite-react": "^0.10.2",
+    "formik": "^2.4.6",
     "jose": "^5.9.6",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.0",
@@ -25,7 +28,8 @@
     "react-phone-input-2": "^2.15.1",
     "react-redux": "^9.2.0",
     "redux-persist": "^6.0.0",
-    "webflow-api": "^3.1.0"
+    "webflow-api": "^3.1.0",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

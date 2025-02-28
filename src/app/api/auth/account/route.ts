@@ -1,48 +1,62 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { jwtVerify } from 'jose';
-import User from '@/lib/models/User';
+import { NextRequest, NextResponse } from "next/server";
+import User from "@/lib/models/User";
+import UserCard from "@/lib/models/User_Card";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth-options";
+import dbConnect from "@/lib/db";
 
 export async function DELETE(request: NextRequest) {
   try {
-    const token = request.cookies.get('token')?.value;
-    if (!token) {
-      return NextResponse.redirect(new URL('/login', request.url));
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Verify the token
-    const { payload } = await jwtVerify(
-      token,
-      new TextEncoder().encode(process.env.JWT_SECRET)
-    );
-
-    // Extract the email from the payload
-    const email = payload.email;
+    const email = session.user.email;
+    await dbConnect();
     if (!email) {
-      return NextResponse.json({ error: 'Email not found in token' }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email not found in token" },
+        { status: 400 }
+      );
     }
 
-    // Use the email for further processing
-    console.log('User email:', email);
-
-    // Example logic for deleting a user
     const user = await User.findOne({ email });
     if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     await User.deleteOne({ email });
 
+    await UserCard.deleteOne({ userId: user.id });
+
     const response = NextResponse.json(
-        { success: true, message: 'Account deleted successfully' },
-        { status: 200 }
-      );
-  
-      response.cookies.delete('token');
+      { success: true, message: "Account deleted successfully" },
+      { status: 200 }
+    );
 
+    if (process.env.NODE_ENV === "production") {
+      response.cookies.set("next-auth.session-token", "", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        expires: new Date(0), // Expire the cookie immediately
+      });
+    }else{
+      response.cookies.set("next-auth.session-token", "", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        expires: new Date(0), // Expire the cookie immediately
+      });
+    }
     return response;
-
   } catch (error) {
-    console.error('Error:', error);
-    return NextResponse.json({ error: 'Account retrieval failed. Please try again.' }, { status: 500 });
+    console.error("Error:", error);
+    return NextResponse.json(
+      { error: "Account retrieval failed. Please try again." },
+      { status: 500 }
+    );
   }
 }

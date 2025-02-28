@@ -1,9 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/db';
-import UserCard from '@/lib/models/User_Card';
-import Properties from '@/lib/models/Properties';
-import { jwtVerify } from 'jose';
-
+import { NextRequest, NextResponse } from "next/server";
+import dbConnect from "@/lib/db";
+import UserCard from "@/lib/models/User_Card";
+import Properties from "@/lib/models/Properties";
+import { jwtVerify } from "jose";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/auth-options";
 
 const fetchItems = async (cmsIDs: []) => {
   try {
@@ -14,7 +15,6 @@ const fetchItems = async (cmsIDs: []) => {
         return item;
       })
     );
-    console.log(items, "items");
     return items.filter((item) => item !== null);
   } catch (error) {
     console.error("Error fetching items:", error);
@@ -24,25 +24,30 @@ const fetchItems = async (cmsIDs: []) => {
 
 export async function GET(request: NextRequest) {
   try {
-    const token = request.cookies.get('token')?.value;
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-    const decodedToken = await jwtVerify(token!, secret);
-    const userId = decodedToken.payload.userId;
-    console.log(userId, "userId");
+    const session = await getServerSession(authOptions);
+    console.log(session, "session");
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const userId = session.user.id;
     await dbConnect();
     const userCards = await UserCard.findOne({ userId });
     console.log(userCards, "userCards");
     if (!userCards) {
-      console.log('No saved items found, returning empty array');
+      console.log("No saved items found, returning empty array");
       return NextResponse.json([]);
     }
     const properties = await fetchItems(userCards.cmsId);
     return NextResponse.json(properties);
   } catch (error) {
-    console.error('ERROR in dashboard API:', error);
-    return NextResponse.json({ 
-      error: 'Server error', 
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    console.error("ERROR in dashboard API:", error);
+    return NextResponse.json(
+      {
+        error: "Server error",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 }
+    );
   }
 }
