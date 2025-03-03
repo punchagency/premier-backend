@@ -46,7 +46,7 @@ export default function PropertyCard({
       className={`relative mb-4 overflow-hidden rounded-2xl  transition-all duration-500 hover:shadow-lg bg-white cursor-pointer`}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={() => window.location.href = url}
+    
     >
       {typeof property.fieldData["card-thumnail"]?.url === "string" && (
         <div className="relative w-full h-[13.021vw] overflow-hidden">
@@ -58,6 +58,7 @@ export default function PropertyCard({
             className={`rounded-t-2xl transition-all duration-500 ${
               hover ? "scale-125" : ""
             }`}
+            onClick={() => window.location.href = url}
           />
         </div>
       )}
