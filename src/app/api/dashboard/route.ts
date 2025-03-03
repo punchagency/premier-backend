@@ -8,7 +8,6 @@ import { authOptions } from "@/app/api/auth/auth-options";
 
 const fetchItems = async (cmsIDs: []) => {
   try {
-    console.log(cmsIDs, "cmsIDs");
     const items = await Promise.all(
       cmsIDs.map(async (id: string) => {
         const item = await Properties.findOne({ id: id });
@@ -25,7 +24,6 @@ const fetchItems = async (cmsIDs: []) => {
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    console.log(session, "session");
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -33,7 +31,6 @@ export async function GET(request: NextRequest) {
     const userId = session.user.id;
     await dbConnect();
     const userCards = await UserCard.findOne({ userId });
-    console.log(userCards, "userCards");
     if (!userCards) {
       console.log("No saved items found, returning empty array");
       return NextResponse.json([]);

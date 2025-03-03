@@ -54,7 +54,14 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async session({ session, token }) {
-      const currentUser = await User.findById(token.sub);
+      await dbConnect();
+      // Find user by email instead of ID to handle both OAuth and regular users
+      const currentUser = await User.findOne({ 
+        $or: [
+          { email: session.user.email },
+          { googleId: token.sub }
+        ]
+      });
       session.user.id = token.sub as string;
       session.user.role = token.role as string;
       session.user.name = currentUser?.name;

@@ -101,14 +101,14 @@ export default function Dashboard() {
     );
   if (error)
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col items-center justify-center h-screen w-40">
         <BlueLogo />
-        <div className="text-premier-blue text-[1.5vw] font-bold">
+        <div className="text-premier-blue text-[1.5vw] font-semibold">
           Error: {error}{" "}
         </div>
         <button
           onClick={handleLogout}
-          className="bg-premier-blue text-white px-4 py-2 rounded-md"
+          className="bg-premier-blue text-white px-4 py-2 rounded-md mt-4"
         >
           Logout
         </button>
