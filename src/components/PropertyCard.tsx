@@ -82,7 +82,8 @@ export default function PropertyCard({
                 Ready
               </span>
             </div>
-            {formatPrice(property.fieldData["property-price-2"])}
+            {property.fieldData["property-price-2"] && formatPrice(property.fieldData["property-price-2"])}
+            {property.fieldData["property-price-3"] && formatPrice(property.fieldData["property-price-3"])}
           </div>
         </div>
         <div className="px-[0.338vw]">

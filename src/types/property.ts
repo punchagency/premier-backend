@@ -10,7 +10,8 @@ interface FieldData {
   'qr-link': string;
   'property-tag': string;
   'bathrooms-2': string;
-  'property-price-2': number;
+  'property-price-2'?: number;
+  'property-price-3'?: number;
   'property-category': string;
   'max-area': number;
   '01-landmark-time-2': number;
