@@ -41,14 +41,14 @@ export async function DELETE(request: NextRequest) {
         httpOnly: true,
         secure: true,
         sameSite: "lax",
-        expires: new Date(0), // Expire the cookie immediately
+        expires: new Date(0), 
       });
     }else{
       response.cookies.set("next-auth.session-token", "", {
         httpOnly: true,
         secure: false,
         sameSite: "lax",
-        expires: new Date(0), // Expire the cookie immediately
+        expires: new Date(0), 
       });
     }
     return response;

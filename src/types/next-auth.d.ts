@@ -9,6 +9,12 @@ declare module "next-auth" {
       image?: string;
       token?: string;
       role: string;
+      preferences: {
+        newsUpdates: boolean;
+        emailNotifications: boolean;
+        propertyAlerts: boolean;
+      };
+      phone: string;
     }
   }
   
@@ -19,5 +25,11 @@ declare module "next-auth" {
     image?: string;
     token?: string;
     role: string;
+    preferences: {
+      newsUpdates: boolean;
+      emailNotifications: boolean;
+      propertyAlerts: boolean;
+    };
+    phone: string;
   }
 }

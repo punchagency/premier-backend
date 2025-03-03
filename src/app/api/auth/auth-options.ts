@@ -54,8 +54,13 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async session({ session, token }) {
+      const currentUser = await User.findById(token.sub);
       session.user.id = token.sub as string;
       session.user.role = token.role as string;
+      session.user.name = currentUser?.name;
+      session.user.email = currentUser?.email;
+      session.user.phone = currentUser?.phone;
+      session.user.preferences = currentUser?.preferences;
       return session;
     },
     async jwt({ token, user }) {
@@ -73,7 +78,7 @@ export const authOptions: NextAuthOptions = {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'none',
-        domain: '.premierproperties.ae', // Set to your main domain
+        domain: '.premierproperties.ae',
         path: '/',
       },
     },
