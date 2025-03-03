@@ -1,6 +1,6 @@
 import { Property } from "@/types/property";
 import PropertyCard from "./PropertyCard";
-import ProfileDashboard from "./ProfileDashboard";
+import ProfileDashboard from "./ProfileTabs/ProfileDashboard";
 import { BsBuildingsFill } from "react-icons/bs";
 import Footer from "./Footer";
 

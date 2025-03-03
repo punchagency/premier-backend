@@ -9,8 +9,6 @@ const ReturnToWebsite = ({
   active,
   hover,
 }: IconProps) => {
-    console.log(hover,"hover");
-    console.log(active,"active");
   return (
     <div className={`icon-btn-primary ${className}`}>
       <svg

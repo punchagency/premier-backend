@@ -5,7 +5,10 @@ import { useRouter } from "next/navigation";
 import SideBar from "@/components/Sidebar";
 import DashboardContent from "@/components/DashboardContent";
 import CardSkeleton from "@/components/CardSkeleton";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import BlueLogo from "../../../public/images/blueLogo";
+import { useAppDispatch } from "@/redux/hooks";
+import { setAuthenticated, setUser } from "@/redux/features/userSlice";
 
 export default function Dashboard() {
   const [properties, setProperties] = useState<Property[]>([]);
@@ -13,7 +16,15 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState<string>("dashboard");
 
-  const router = useRouter();
+  const { data: session, status } = useSession();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user) {
+      dispatch(setUser(session.user));
+      dispatch(setAuthenticated(true));
+    }
+  }, [session, status, dispatch]);
 
   const loadProperties = async () => {
     try {
@@ -24,7 +35,6 @@ export default function Dashboard() {
       console.log(data);
       setProperties(Array.isArray(data) ? data : []);
     } catch (error: unknown) {
-      // Change err to error and add type
       setError("Failed to load properties");
       console.error("Error:", error);
     } finally {
@@ -39,8 +49,9 @@ export default function Dashboard() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ slug }), // Send slug in the request body
+          body: JSON.stringify({ slug }),
         });
+
         if (response.ok) {
           setProperties((prev) =>
             prev.filter((p) => p.fieldData.slug !== slug)
@@ -59,8 +70,8 @@ export default function Dashboard() {
   const handleLogout = async () => {
     try {
       await signOut({
-        redirect: true, // Redirect after successful logout
-        callbackUrl: "/login", // Redirect to home page after logout
+        redirect: true,
+        callbackUrl: "/login",
       });
     } catch (error) {
       console.error("Logout failed:", error);
@@ -79,16 +90,30 @@ export default function Dashboard() {
           <div className="flex flex-col">
             <div className="h-[1.7vw] w-[15vw] m-[3vw] mt-[3.5vw] mb-0 bg-gray-400 rounded-md mt-10"></div>
             <div className="h-[1.7vw] w-[10vw] ml-[3vw] bg-gray-400 rounded-md mt-10"></div>
-          <div className="grid m-[3vw] w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <CardSkeleton />
-            <CardSkeleton />
-            <CardSkeleton />
-          </div>
+            <div className="grid m-[3vw] w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+            </div>
           </div>
         </div>
       </div>
     );
-  if (error) return <div>Error: {error}</div>;
+  if (error)
+    return (
+      <div className="flex flex-col">
+        <BlueLogo />
+        <div className="text-premier-blue text-[1.5vw] font-bold">
+          Error: {error}{" "}
+        </div>
+        <button
+          onClick={handleLogout}
+          className="bg-premier-blue text-white px-4 py-2 rounded-md"
+        >
+          Logout
+        </button>
+      </div>
+    );
 
   return (
     <div className="flex w-full h-full">

@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import DeleteAccountModal from "./DeleteAccountModal";
+import DeleteAccountModal from "../Modals/DeleteAccountModal";
 
 const DeleteAccount = () => {
   const router = useRouter();

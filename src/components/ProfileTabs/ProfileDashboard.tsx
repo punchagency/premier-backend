@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import ChangePasswordForm from "./ChangePasswordForm";
+import ChangePasswordForm from "../Forms/ChangePasswordForm";
 import AccountDetailsDashboard from "./AccountDetails";
 import DeleteAccount from "./DeleteAccount";
 import { useAppSelector } from "@/redux/hooks";
-import SubscriptionPreferences from "./SubscriptionPreferences";
-
+import SubscriptionPreferences from "../SubscriptionPreferences";
 const ProfileDashboard = () => {
   const [activeTab, setActiveTab] = useState("Personal Details");
   const { user } = useAppSelector((state) => state.user);
+
+  console.log(user, "user");
 
   return (
     <div className="min-h-screen flex flex-col space-y-[1vw]">

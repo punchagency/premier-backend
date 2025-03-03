@@ -1,7 +1,7 @@
 "use client";
 import { Property } from "@/types/property";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Cancel from "../../public/icons/Cancel";
 
 interface PropertyCardProps {
@@ -9,15 +9,33 @@ interface PropertyCardProps {
   onDelete?: (id: string) => void;
 }
 
+
 export default function PropertyCard({
   property,
   onDelete,
 }: PropertyCardProps) {
   const [hover, setHover] = useState(false);
+  const [url, setUrl] = useState("");
+
+  const Rent_property = "b2f0a41fd7c327c10366827ae6439b61";
+  const Off_plan_property = "5fe363f78dddef4aebf24a49d82c6d5f";
+  const Buy_property = "3fdef2e82bd992cac8b18a19ed38925c";
+  
+  const propertyType = property.fieldData["property-tag"];
+
+  useEffect(() => {
+  if (propertyType === Rent_property) {
+     setUrl(`https://www.premierproperties.ae/properties/rent/${property.fieldData.slug}`);
+  } else if (propertyType === Off_plan_property) {
+     setUrl(`https://www.premierproperties.ae/properties/off-plan/${property.fieldData.slug}`);
+  } else if (propertyType === Buy_property) {
+     setUrl(`https://www.premierproperties.ae/properties/buy/${property.fieldData.slug}`);
+  }
+  }, [propertyType]);
 
   const formatPrice = (price: number) => {
-    return price.toLocaleString("en-US", {
-      style: "currency",
+    return price.toLocaleString('en-US', {
+      style: 'currency',
       currency: "AED",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
@@ -25,9 +43,10 @@ export default function PropertyCard({
   };
   return (
     <div
-      className={`relative mb-4 overflow-hidden rounded-2xl  transition-all duration-500 hover:shadow-lg bg-white`}
+      className={`relative mb-4 overflow-hidden rounded-2xl  transition-all duration-500 hover:shadow-lg bg-white cursor-pointer`}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onClick={() => window.location.href = url}
     >
       {typeof property.fieldData["card-thumnail"]?.url === "string" && (
         <div className="relative w-full h-[13.021vw] overflow-hidden">

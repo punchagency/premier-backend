@@ -11,9 +11,7 @@ export async function GET(req: NextRequest) {
     console.log(token, "token");
 
     const secretKey = new TextEncoder().encode(process.env.JWT_SECRET);
-    console.log(token, "token");
     const{ payload } = await jwtVerify(token!, secretKey);
-    console.log(payload, "payload");
     if (!payload) {
       return NextResponse.json({
         success: false,

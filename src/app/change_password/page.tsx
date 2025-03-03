@@ -1,4 +1,4 @@
-import ChangePasswordForm from "@/components/ChangePasswordForm";
+import ChangePasswordForm from "@/components/Forms/ChangePasswordForm";
 
 
 export default function change_password() {

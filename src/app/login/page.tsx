@@ -1,4 +1,4 @@
-import LoginForm from '@/components/LoginForm';
+import LoginForm from '@/components/Forms/LoginForm';
 import Background from "../../../public/images/background.png"
 import LogoImage from '../../../public/images/logo.png';
 import Image from 'next/image';

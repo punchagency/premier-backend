@@ -10,20 +10,19 @@ import Link from "next/link";
 import { MdOutlineEmail } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import { signIn, useSession } from "next-auth/react";
-import NotifyToast from "./NotifyToast";
 
 export default function LoginForm() {
   const { data: session, status } = useSession();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
       console.log("Logged in user:", session.user);
       dispatch(setUser(session.user));
       dispatch(setAuthenticated(true));
-      router.push("/dashboard");
     }
   }, [session, status, router, dispatch]);
 
@@ -44,7 +43,8 @@ export default function LoginForm() {
       const response = await signIn("credentials", {
         email: values.email,
         password: values.password,
-        redirect: false,
+        redirect: true,
+        callbackUrl: "/dashboard",
       });
 
       if (response?.error) {
@@ -65,7 +65,9 @@ export default function LoginForm() {
       onSubmit={handleSubmit}
     >
       {({ isSubmitting}) => (
+        
         <Form className="w-[23.906vw] h-[26.906vw] mt-[3.49vw] relative">
+          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           <div className="space-y-4">
             <div className="relative">
               <Field
@@ -132,7 +134,7 @@ export default function LoginForm() {
           </div>
 
           <button
-            onClick={() => signIn("google")}
+            onClick={() => signIn("google", { redirect: true, callbackUrl: "/dashboard" })}
             type="button"
             className="p-[0.833vw] border border-[#E8EBEF] rounded-[0.833vw]  w-full flex items-center justify-center"
           >

@@ -114,33 +114,6 @@ export default function SignupForm() {
     } finally {
       setSubmitting(false);
     }
-
-    // try {
-    //   const response = await fetch("/api/auth/signup", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(values),
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    //   }
-
-    //   const data = await response.json();
-
-    //   if (data.success) {
-    //       router.push("/login");
-    //   } else {
-    //     setErrors({ email: data.message || "Signup failed" });
-    //   }
-    // } catch (error: unknown) {
-    //   setErrors({ email: "Signup failed. Please try again." });
-    //   console.error("Signup error:", error);
-    // } finally {
-    //   setSubmitting(false);
-    // }
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -227,7 +200,7 @@ export default function SignupForm() {
             >
               By clicking here, you agree to our{" "}
               <Link
-                href="#"
+                href="https://www.premierproperties.ae/privacy-policy"
                 className="text-premier-blue font-medium hover:underline"
               >
                 Privacy Policy

@@ -1,11 +1,8 @@
-import LoginForm from '@/components/LoginForm';
 import Background from "../../../public/images/background.png"
-import LogoImage from '../../../public/images/logo.png';
-import Image from 'next/image';
-import { IoChevronBack } from "react-icons/io5";
 import ReturnToWebsite from '@/components/ReturnToWebsite';
 import BlueLogo from '../../../public/images/blueLogo';
-import ForgotPassword from '@/components/ForgotPassword';
+import ForgotPassword from '@/components/Forms/ForgotPasswordForm';
+import Link from "next/link";
 export default function LoginPage() {
   return (
     <div
@@ -20,6 +17,7 @@ export default function LoginPage() {
           <h2 className="text-[1.042vw] text-premier-blue text-center mt-[1.458vw]">Forgot Password</h2> 
           </div>
           <ForgotPassword />
+          <Link href={'/login'} className="text-premier-blue text-center">Go Back</Link>
         </div>
       </div>
     </div>

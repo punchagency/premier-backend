@@ -5,7 +5,7 @@ import ReturnToWebsite from "../../public/icons/ReturnToWebsite";
 import Profile from "../../public/icons/Profile";
 import Logout from "../../public/icons/Logout";
 import Dashboard from "../../public/icons/Dashboard";
-import LogoutModal from "./LogoutModal";
+import LogoutModal from "./Modals/LogoutModal";
 
 
 const Sidebar = ({

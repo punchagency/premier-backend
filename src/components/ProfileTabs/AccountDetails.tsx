@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CustomPhoneInput from "./PhoneInput";
+import CustomPhoneInput from "../PhoneInput";
 import { updateUserDetails } from "@/redux/features/userSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Formik, Form, Field, ErrorMessage } from "formik";

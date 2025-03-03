@@ -1,11 +1,11 @@
-import LoginForm from '@/components/LoginForm';
+import LoginForm from '@/components/Forms/LoginForm';
 import Background from "../../../public/images/background.png"
 import LogoImage from '../../../public/images/logo.png';
 import Image from 'next/image';
 import { IoChevronBack } from "react-icons/io5";
 import ReturnToWebsite from '@/components/ReturnToWebsite';
 import BlueLogo from '../../../public/images/blueLogo';
-import NewPasswordForm from '@/components/NewPasswordForm';
+import NewPasswordForm from '@/components/Forms/NewPasswordForm';
 
 export default function LoginPage() {
   return (
