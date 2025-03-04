@@ -36,15 +36,15 @@ const ForgotPassword = () => {
     }
   };
   return (
-    <div className="flex items-center justify-center py-[5.208vw]">
+    <div className="flex items-center justify-center py-[2.208vw]">
       <Formik
         initialValues={{ email: "" }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
         >
         <Form>
-          {successMessage && <div className="text-green-500 text-[0.729vw] my-[0.642vw] ">{successMessage}</div>}
-          {errorMessage && <div className="text-red-500 text-[0.729vw] my-[0.642vw] ">{errorMessage}</div>}
+          {successMessage && <div className="text-green-500 text-center text-[0.729vw] mb-[1.642vw] ">{successMessage}</div>}
+          {errorMessage && <div className="text-red-500 text-center text-[0.729vw] mb-[1.642vw] ">{errorMessage}</div>}
           <Field name="email" placeholder="Email" className="w-full p-[1.042vw] border border-[#E8EBEF] h-[3.177vw] rounded-[0.833vw] focus:outline-none" />
           <ErrorMessage name="email" component="div" className="text-red-500 text-[0.729vw] mt-[0.442vw]" />
           <button

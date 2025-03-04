@@ -4,18 +4,17 @@ import User from '@/lib/models/User';
 import { validateEmail } from '@/utils/validateEmail';
 import { jwtVerify } from 'jose';
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     await dbConnect();
-    const token = req.nextUrl.searchParams.get('token');
-    console.log(token, "token");
+    const { token } = await req.json()
 
     const secretKey = new TextEncoder().encode(process.env.JWT_SECRET);
-    const{ payload } = await jwtVerify(token!, secretKey);
+    const{ payload } = await jwtVerify(token, secretKey);
     if (!payload) {
       return NextResponse.json({
         success: false,
-        message: 'Invalid token'
+        message: 'Invalid token!'
       }, { status: 400 });
     }
 
@@ -32,15 +31,15 @@ export async function GET(req: NextRequest) {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
-        { success: false, message: 'Email already exists' },
+        { success: false, message: 'Account already exists' },
         { status: 400 }
       );
     }
 
     const user = await User.create({ name, email, password });
-    console.log(user, "user");
     if (user) {
-      return NextResponse.redirect(new URL('/login', req.url));
+      return NextResponse.json(  { success: true, message: 'Account has been created!' },
+        { status: 200 });
     }
   } catch (error) {
     console.error('Signup error:', error);

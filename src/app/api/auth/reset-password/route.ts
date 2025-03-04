@@ -1,39 +1,41 @@
-import { signJWT } from "@/lib/jwt";
+import dbConnect from "@/lib/db";
 import User from "@/lib/models/User";
+import bcrypt from "bcryptjs";
 import { jwtVerify } from "jose";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
-    const token = request.nextUrl.searchParams.get("token");
-    
+export async function POST(request: NextRequest) {
+  try {
+      await dbConnect()
+    const {token} = await request.json();
     if (!token) {
-        return NextResponse.redirect(
-            `/login?error=${encodeURIComponent('Token is required')}`
-        );
+      return NextResponse.json({
+        success: false,
+        message: "No token provided",
+      });
     }
 
-    try {
-        const decoded = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));
-        if (!decoded) {
-            return NextResponse.redirect(
-                `/login?error=${encodeURIComponent('Invalid token')}`
-            );
-        }
-        const user = await User.findOne({ email: decoded.payload.email });
-        if (!user) {
-            return NextResponse.redirect(
-                `/login?error=${encodeURIComponent('User not found')}`
-            );
-        }
-
-        const newToken = await signJWT({ email: user.email });
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-        const redirectUrl = new URL(`/new-password?token=${newToken}`, baseUrl);
-
-        return NextResponse.redirect(redirectUrl.toString());
-    } catch (error) {
-        return NextResponse.redirect(
-            `/login?error=${encodeURIComponent('Authentication failed')}`
-        );
+    const secretKey = new TextEncoder().encode(process.env.JWT_SECRET);
+    const{ payload } = await jwtVerify(token, secretKey);
+    if (!payload) {
+      return NextResponse.json({ success: false, message: "Invalid token" });
     }
+    const user = await User.findOne({ email: payload.email });
+    if (!user) {
+      return NextResponse.json({ success: false, message: "User not found" });
+    }
+    user.password = await bcrypt.hash("temp123", 12);
+    await user.save();
+
+    return NextResponse.json({
+      success: true,
+      message: "Verification email sent",
+    });
+  } catch (error) {
+    console.error("Error sending verification email:", error);
+    return NextResponse.json({
+      success: false,
+      message: "Failed to send verification email",
+    });
+  }
 }

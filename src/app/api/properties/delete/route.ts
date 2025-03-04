@@ -36,7 +36,6 @@ export async function DELETE(request: NextRequest) {
 
     const propertyId = property.id;
 
-    // Update the UserCard document by removing the propertyId from cmsId array
     const result = await UserCard.updateOne(
       { userId },
       { $pull: { cmsId: propertyId } }

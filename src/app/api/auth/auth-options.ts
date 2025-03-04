@@ -55,7 +55,6 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       await dbConnect();
-      // Find user by email instead of ID to handle both OAuth and regular users
       const currentUser = await User.findOne({ 
         $or: [
           { email: session.user.email },
@@ -78,18 +77,18 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
   },
-  cookies: {
-    sessionToken: {
-      name: `__Secure-next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'none',
-        domain: '.premierproperties.ae',
-        path: '/',
-      },
-    },
-  }, 
+  // cookies: {
+  //   sessionToken: {
+  //     name: `__Secure-next-auth.session-token`,
+  //     options: {
+  //       httpOnly: true,
+  //       secure: process.env.NODE_ENV === 'production',
+  //       sameSite: 'none',
+  //       domain: '.premierproperties.ae',
+  //       path: '/',
+  //     },
+  //   },
+  // }, 
   pages: {
     signIn: '/login',
   },

@@ -6,13 +6,11 @@ import SessionWrapper from "./SessionWrapper";
 import Error from "@/components/Error";
 
 const heebo = Heebo({
-  subsets: ['latin'],  
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'], // All available weights
-  display: 'swap', // Ensures better performance
-  variable: '--font-heebo',
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-heebo",
 });
-
-
 
 export const metadata: Metadata = {
   title: "My Account | Premier Properties",
@@ -20,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children, 
+  children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
@@ -28,8 +26,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${heebo.className} ${heebo.variable} antialiased`}>
         <ReduxWrapper>
-          <SessionWrapper >
-          <Error /> 
+          <SessionWrapper>
+            <Error />
             {children}
           </SessionWrapper>
         </ReduxWrapper>

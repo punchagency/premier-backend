@@ -3,28 +3,13 @@ import { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/redux/hooks";
-import { setAuthenticated, setUser } from "@/redux/features/userSlice";
 import Link from "next/link";
 import { MdOutlineEmail } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 export default function LoginForm() {
-  const { data: session, status } = useSession();
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (status === "authenticated" && session?.user) {
-      console.log("Logged in user:", session.user);
-      dispatch(setUser(session.user));
-      dispatch(setAuthenticated(true));
-    }
-  }, [session, status, router, dispatch]);
 
   const initialValues = { email: "", password: "" };
 
@@ -67,7 +52,6 @@ export default function LoginForm() {
       {({ isSubmitting}) => (
         
         <Form className="w-[23.906vw] h-[26.906vw] mt-[3.49vw] relative">
-          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           <div className="space-y-4">
             <div className="relative">
               <Field
@@ -113,7 +97,7 @@ export default function LoginForm() {
               />
             <Link
               href="/forgot-password"
-              className="text-[#97A4B6] text-[0.729vw]  text-right hover:underline"
+              className="text-[#97A4B6] text-[0.729vw]  text-right hover:text-gray-500"
               >
                 Forgot Password?
               </Link>
