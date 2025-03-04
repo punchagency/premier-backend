@@ -62,6 +62,20 @@ export default function PropertyCard({
           />
         </div>
       )}
+      {typeof property.fieldData["card-thumbnail"]?.url === "string" && (
+        <div className="relative w-full h-[13.021vw] overflow-hidden">
+          <Image
+            src={property.fieldData["card-thumbnail"]?.url}
+            alt={property.fieldData["card-thumbnail"]?.alt || "Property"}
+            fill
+            style={{ objectFit: "cover" }}
+            className={`rounded-t-2xl transition-all duration-500 ${
+              hover ? "scale-125" : ""
+            }`}
+            onClick={() => window.location.href = url}
+          />
+        </div>
+      )}
       <div className="p-[1.042vw]">
         <div
           className={`p-[0.763vw] rounded-[0.763vw] bg-[#F4F5F7] ${
@@ -82,6 +96,7 @@ export default function PropertyCard({
                 Ready
               </span>
             </div>
+            {property.fieldData["property-price"] && formatPrice(property.fieldData["property-price"])}
             {property.fieldData["property-price-2"] && formatPrice(property.fieldData["property-price-2"])}
             {property.fieldData["property-price-3"] && formatPrice(property.fieldData["property-price-3"])}
           </div>

@@ -8,7 +8,7 @@ import dbConnect from "@/lib/db";
 export async function DELETE(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-
+    console.log(session)
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -27,9 +27,11 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    await User.deleteOne({ email });
+   const deletedUser =  await User.deleteOne({ email });
+   console.log(deletedUser)
 
-    await UserCard.deleteOne({ userId: user.id });
+   const deletedUserCards =  await UserCard.deleteOne({ userId: user.id });
+    console.log(deletedUserCards)
 
     const response = NextResponse.json(
       { success: true, message: "Account deleted successfully" },
@@ -37,20 +39,23 @@ export async function DELETE(request: NextRequest) {
     );
 
     if (process.env.NODE_ENV === "production") {
-      response.cookies.set("next-auth.session-token", "", {
+      response.cookies.set("__Secure-next-auth.session-token", "", {
         httpOnly: true,
         secure: true,
-        sameSite: "lax",
-        expires: new Date(0), 
+        sameSite: "none",
+        domain: '.premierproperties.ae',
+        path: '/',
+        expires: new Date(0),
       });
-    }else{
+    } else {
       response.cookies.set("next-auth.session-token", "", {
         httpOnly: true,
         secure: false,
         sameSite: "lax",
-        expires: new Date(0), 
+        expires: new Date(0),
       });
     }
+
     return response;
   } catch (error) {
     console.error("Error:", error);

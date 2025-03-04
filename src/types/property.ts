@@ -10,6 +10,7 @@ interface FieldData {
   'qr-link': string;
   'property-tag': string;
   'bathrooms-2': string;
+  'property-price'?: number;
   'property-price-2'?: number;
   'property-price-3'?: number;
   'property-category': string;
@@ -20,14 +21,15 @@ interface FieldData {
   'bedrooms-5': string;
   'property-long-description': string;
   'qr-code-listing-number': string;
-  name: string;
+   name: string;
   'property-location-name': string;
   'property-location': string;
   '01-landmark-name': string;
   '02-landmark-name': string;
   '03-landmark-name': string;
   'card-title': string;
-  'card-thumnail': Image;
+  'card-thumnail'?: Image;
+  'card-thumbnail'?: Image;
   'qr-image': Image;
   'property-type': string;
   agent: string;
