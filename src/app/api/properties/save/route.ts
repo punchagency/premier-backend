@@ -49,17 +49,17 @@ export async function POST(req: NextRequest) {
       }, { status: 400 });
     }
 
-    // Look for existing user's saved items
-    const existingUser = await UserCard.findOne({ userId });
+    const updatedUserCard = await UserCard.findOneAndUpdate(
+      { userId },
+      { $addToSet: { cmsId: item.id } },
+      { 
+        new: true,
+        upsert: true // This will create a new document if none exists
+      }
+    );
 
-    if (existingUser) {
-      await UserCard.findByIdAndUpdate(
-        existingUser._id,
-        {
-          $addToSet: { cmsId: item.id }
-        },
-        { new: true }
-      );
+    console.log(updatedUserCard,"updatedUserCard")
+
 
       return NextResponse.json({
         success: true,
@@ -67,20 +67,20 @@ export async function POST(req: NextRequest) {
         saved: true,
         userId
       });
-    }
+    // }
 
-    // If no existing user, create new record
-    await UserCard.create({
-      cmsId: [item.id],
-      userId: userId
-    });
+    // // If no existing user, create new record
+    // await UserCard.create({
+    //   cmsId: [item.id],
+    //   userId: userId
+    // });
 
-    return NextResponse.json({
-      success: true,
-      message: "Item saved successfully",
-      saved: true,
-      userId
-    });
+    // return NextResponse.json({
+    //   success: true,
+    //   message: "Item saved successfully",
+    //   saved: true,
+    //   userId
+    // });
 
   } catch (error) {
     console.error("Error:", error);

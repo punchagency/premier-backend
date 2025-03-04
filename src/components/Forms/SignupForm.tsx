@@ -228,7 +228,7 @@ export default function SignupForm() {
           </div>
 
           <button
-            onClick={() => signIn("google")}
+            onClick={() => signIn("google",{ redirect: true, callbackUrl: "/dashboard" })}
             type="button"
             className="p-[0.833vw] border border-[#E8EBEF] rounded-[0.833vw]  w-full flex items-center justify-center"
           >
