@@ -77,18 +77,18 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
   },
-  // cookies: {
-  //   sessionToken: {
-  //     name: `__Secure-next-auth.session-token`,
-  //     options: {
-  //       httpOnly: true,
-  //       secure: process.env.NODE_ENV === 'production',
-  //       sameSite: 'none',
-  //       domain: '.premierproperties.ae',
-  //       path: '/',
-  //     },
-  //   },
-  // }, 
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none',
+        domain: '.premierproperties.ae',
+        path: '/',
+      },
+    },
+  }, 
   pages: {
     signIn: '/login',
   },
