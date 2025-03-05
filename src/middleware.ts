@@ -4,10 +4,23 @@ import { NextResponse } from "next/server";
 export default withAuth(
   async function middleware(request) {
     const { pathname } = request.nextUrl;
-    const token = request.cookies.get('next-auth.session-token') || request.cookies.get('__Secure-next-auth.session-token');
+    const token = request.nextauth.token!;
 
     if (pathname === '/' && token) {
+      if (token.role === 'admin') {
+        return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+      }
       return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+
+    if (pathname.startsWith('/admin')) {
+      if (token.role !== 'admin') {
+        return NextResponse.redirect(new URL('/dashboard', request.url));
+      }
+    }
+
+    if (pathname.startsWith('/dashboard') && token.role === 'admin') {
+      return NextResponse.redirect(new URL('/admin/dashboard', request.url));
     }
 
     return NextResponse.next();

@@ -2,30 +2,26 @@
 import dbConnect from "@/lib/db";
 import Properties from "@/lib/models/Properties";
 import { jwtVerify } from "jose";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { WebflowClient } from "webflow-api";
+import { authOptions } from "../../auth/auth-options";
 
 const accessToken = process.env.WEBFLOW_ACCESS_TOKEN as string;
 
 const COLLECTION_IDS = process.env.COLLECTION_IDS?.split(",") || [];
+console.log(COLLECTION_IDS, "COLLECTION_IDS");
 
 export async function GET(request: NextRequest) {
   try {
     await dbConnect();
-    const token = request.cookies.get("token")?.value;
+    const session = await getServerSession(authOptions);
 
-    if (!token) {
+    if (!session) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     try {
-      const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-      const decodedToken = await jwtVerify(token, secret);
-
-      if (!decodedToken) {
-        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-      }
-
       const webflow = new WebflowClient({ accessToken });
 
       // Initialize arrays to store results

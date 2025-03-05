@@ -29,7 +29,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const user = await User.findOne({ email: session.user.email });
-    console.log(user, "user");
     if (!user) {
       return NextResponse.json({ 
         success: false, 
@@ -38,9 +37,7 @@ export async function GET(request: NextRequest) {
     }
 
     const userId = user.googleId || user._id; 
-    console.log(userId, "userId");
     const userCards = await UserCard.findOne({ userId });
-    console.log(userCards, "userCards");
     if (!userCards) {
       console.log("No saved items found, returning empty array");
       return NextResponse.json([]);
