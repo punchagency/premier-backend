@@ -18,7 +18,7 @@ export default function LoginPage() {
           <ReturnToWebsite />
           <div className='flex flex-col items-center'>
             <BlueLogo />
-          <h2 className="text-[1.042vw] text-premier-blue text-center mt-[1.458vw]">Change Password</h2> 
+          <h2 className="text-[1.042vw] text-premier-blue text-center mt-[1.458vw]">Create New Password</h2> 
           </div>
           <NewPasswordForm />
         </div>

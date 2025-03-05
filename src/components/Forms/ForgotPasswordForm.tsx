@@ -3,12 +3,13 @@ import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 import { Form } from "formik";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 const ForgotPassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
+  const {data:session} = useSession();
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
   });

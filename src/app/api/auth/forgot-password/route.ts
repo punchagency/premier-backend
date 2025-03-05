@@ -18,6 +18,10 @@ export async function POST(request: Request) {
     if (!user) {
       return NextResponse.json({ success: false, message: "User not found" });
     }
+    if(user.googleId){
+      return NextResponse.json({ success: false, message: "Google account cannot reset password" });
+    }
+
     sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
     const token = await signJWT({ email: user.email });
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
