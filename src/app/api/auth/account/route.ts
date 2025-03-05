@@ -23,6 +23,7 @@ export async function DELETE(request: NextRequest) {
     }
     
     const user = await User.findOne({ email });
+
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
@@ -31,6 +32,7 @@ export async function DELETE(request: NextRequest) {
    const deletedUser =  await User.deleteOne({ email });
    console.log(deletedUser, "deletedUser")
 
+   console.log(user, "user")
    const deletedUserCards =  await UserCard.deleteOne({ userId: user.id });
     console.log(deletedUserCards, "deletedUserCards")
 
