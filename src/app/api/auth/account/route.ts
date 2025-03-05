@@ -8,13 +8,16 @@ import dbConnect from "@/lib/db";
 export async function DELETE(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    console.log(session,"session")
+
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     
     const email = session.user.email;
+    const userId = session.user.id;
+
     await dbConnect();
+    
     if (!email) {
       return NextResponse.json(
         { error: "Email not found in token" },
@@ -27,15 +30,10 @@ export async function DELETE(request: NextRequest) {
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
-    console.log(session,"session")
 
-   const deletedUser =  await User.deleteOne({ email });
-   console.log(deletedUser, "deletedUser")
+   await User.deleteOne({ email });
 
-   console.log(user, "user")
-   console.log(user.id, "user.id")
-   const deletedUserCards =  await UserCard.deleteOne({ userId: user.id });
-    console.log(deletedUserCards, "deletedUserCards")
+   await UserCard.deleteOne({ userId });
 
     const response = NextResponse.json(
       { success: true, message: "Account deleted successfully" },
