@@ -50,7 +50,7 @@ const DashboardContent = ({
                       (window.location.href =
                         "https://www.premierproperties.ae")
                     }
-                    className="text-[0.833vw] font-normal ms-auto text-white bg-premier-blue p-[0.625vw] rounded-[0.833vw] hover:bg-premier-blue"
+                    className="text-[0.833vw] font-normal ms-auto text-white bg-premier-blue p-[0.625vw] rounded-[0.333vw] hover:bg-premier-blue"
                   >
                     Search for properties
                   </button>

@@ -9,7 +9,7 @@ export default function SignupPage() {
       style={{backgroundImage: `url(${Background.src})`}}
     >
       <div className="min-h-screen flex items-center justify-center bg-opacity-0">
-        <div className="w-[43.594vw] h-[42.229vw] space-y-20 p-8 bg-white rounded-xl shadow-lg flex flex-col items-center">
+        <div className="w-[43.594vw] h-[calc(42.229vw+5.667vh)] p-[1.667vw] bg-white rounded-xl shadow-lg flex flex-col items-center">
 
           <div className='flex flex-col items-center'>
             <BlueLogo />

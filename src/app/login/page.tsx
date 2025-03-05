@@ -13,7 +13,7 @@ export default function LoginPage() {
       style={{backgroundImage: `url(${Background.src})`}}
     >
       <div className="min-h-screen flex items-center justify-center bg-opacity-0">
-        <div className="w-[43.594vw] space-y-8 p-8 bg-white rounded-xl shadow-lg flex flex-col items-center">
+        <div className="w-[43.594vw] h-[calc(38.229vw+5.667vh)] space-y-[1.667vw] p-[1.667vw] bg-white rounded-xl shadow-lg flex flex-col items-center">
           <ReturnToWebsite />
           <div className='flex flex-col items-center'>
             <BlueLogo />

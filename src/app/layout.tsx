@@ -3,7 +3,6 @@ import { Heebo } from "next/font/google";
 import "./globals.css";
 import ReduxWrapper from "./ReduxWrapper";
 import SessionWrapper from "./SessionWrapper";
-import Error from "@/components/Error";
 
 const heebo = Heebo({
   subsets: ["latin"],
@@ -27,7 +26,6 @@ export default function RootLayout({
       <body className={`${heebo.className} ${heebo.variable} antialiased`}>
         <ReduxWrapper>
           <SessionWrapper>
-            <Error />
             {children}
           </SessionWrapper>
         </ReduxWrapper>

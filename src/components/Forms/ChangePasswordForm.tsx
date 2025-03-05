@@ -104,7 +104,7 @@ export default function ChangePasswordForm() {
                 <ErrorMessage
                   name="oldPassword"
                   component="div"
-                  className="text-red-600"
+                  className="text-red-600 absolute top-[3.2vw] text-[0.729vw]"
                 />
                 <button
                   type="button"
@@ -135,7 +135,7 @@ export default function ChangePasswordForm() {
                 <ErrorMessage
                   name="newPassword"
                   component="div"
-                  className="text-red-600"
+                  className="text-red-600 absolute top-[3.2vw] text-[0.729vw]"
                 />
                 <button
                   type="button"
@@ -166,7 +166,7 @@ export default function ChangePasswordForm() {
                 <ErrorMessage
                   name="confirmPassword"
                   component="div"
-                  className="text-red-600"
+                  className="text-red-600 text-[0.729vw] absolute top-[3.2vw]"
                 />
                 <button
                   type="button"

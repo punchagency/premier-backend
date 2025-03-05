@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
       { $addToSet: { cmsId: item.id } },
       { 
         new: true,
-        upsert: true // This will create a new document if none exists
+        upsert: true
       }
     );
 
@@ -67,20 +67,6 @@ export async function POST(req: NextRequest) {
         saved: true,
         userId
       });
-    // }
-
-    // // If no existing user, create new record
-    // await UserCard.create({
-    //   cmsId: [item.id],
-    //   userId: userId
-    // });
-
-    // return NextResponse.json({
-    //   success: true,
-    //   message: "Item saved successfully",
-    //   saved: true,
-    //   userId
-    // });
 
   } catch (error) {
     console.error("Error:", error);

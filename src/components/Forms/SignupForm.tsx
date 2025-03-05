@@ -125,8 +125,8 @@ export default function SignupForm() {
       onSubmit={handleSubmit}
     >
       {({ isSubmitting }) => (
-        <Form className="w-[23.906vw] h-[28.906vw] mt-[3.49vw] relative">
-          <div className="space-y-4">
+        <Form className="w-[23.906vw] h-[29.906vw] mt-[3.49vw] relative">
+          <div className="space-y-[0.833vw]">
             {submissionStatus === "success" && (
               <div className="text-center text-green-500 text-[0.833vw]">
                 Verification email sent! Please check your email for
@@ -137,12 +137,11 @@ export default function SignupForm() {
               <Field
                 type="text"
                 name="name"
-                className="w-full p-[1.042vw] border border-[#E8EBEF] h-[3.177vw] rounded-[0.833vw] focus:outline-none"
+                className="w-full p-[1.042vw] border text-[0.833vw] border-[#E8EBEF] h-[3.177vw] rounded-[0.833vw] focus:outline-none"
                 placeholder="Name"
               />
               <FiUser
-                size={17}
-                className="absolute right-[0.842vw] top-[1.2vw] text-gray-400"
+                className="absolute right-[0.842vw] top-[1.2vw] text-gray-400 text-[0.99vw]"
               />
               <ErrorMessage
                 name="name"
@@ -154,12 +153,12 @@ export default function SignupForm() {
               <Field
                 type="email"
                 name="email"
-                className="w-full p-[1.042vw] border border-[#E8EBEF] h-[3.177vw] rounded-[0.833vw] focus:outline-none"
+                className="w-full p-[1.042vw] border text-[0.833vw] border-[#E8EBEF] h-[3.177vw] rounded-[0.833vw] focus:outline-none"
                 placeholder="Email Address"
               />
               <MdOutlineMailOutline
-                size={17}
-                className="absolute right-[0.842vw] top-[1.2vw] text-gray-400"
+                
+                className="absolute right-[0.842vw] top-[1.2vw] text-gray-400 text-[0.99vw]"
               />
               <ErrorMessage
                 name="email"
@@ -171,14 +170,14 @@ export default function SignupForm() {
               <Field
                 type={showPassword ? "text" : "password"}
                 name="password"
-                className="w-full p-[1.042vw] border border-[#E8EBEF] h-[3.177vw] rounded-[0.833vw] focus:outline-none"
+                className="w-full p-[1.042vw] border text-[0.833vw] border-[#E8EBEF] h-[3.177vw] rounded-[0.833vw] focus:outline-none"
                 placeholder="Password"
               />
               <span
                 className="absolute right-[0.842vw] top-[1.2vw] cursor-pointer text-gray-400"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                {showPassword ? <AiOutlineEyeInvisible className="text-[0.99vw]" /> : <AiOutlineEye className="text-[0.99vw]" />}
               </span>
               <ErrorMessage
                 name="password"
@@ -210,7 +209,7 @@ export default function SignupForm() {
           <button
             type="submit"
             disabled={isSubmitting || submissionStatus === "success"}
-            className="w-[23.906vw] mt-[1.442vw] text-white p-[0.625vw] rounded-[0.833vw] flex items-center justify-center bg-premier-blue"
+            className="w-[23.906vw] mt-[1.442vw] text-[0.833vw] text-white p-[0.625vw] rounded-[0.833vw] flex items-center justify-center bg-premier-blue"
           >
              {submissionStatus === "submitting"
               ? "Sending verification email..."
@@ -232,10 +231,10 @@ export default function SignupForm() {
             type="button"
             className="p-[0.833vw] border border-[#E8EBEF] rounded-[0.833vw]  w-full flex items-center justify-center"
           >
-            <FcGoogle size={22} />
+              <FcGoogle className="text-[1.3vw]" />
           </button>
 
-          <p className="text-center text-[#97A4B6] text-[0.833vw] absolute bottom-0 left-[5.833vw]">
+          <p className="text-center text-[#97A4B6] text-[0.833vw] mt-[5.442vw] ">
             Already have an account?{" "}
             <Link href="/login" className="text-premier-blue hover:underline">
               Login
