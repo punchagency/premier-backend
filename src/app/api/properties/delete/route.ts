@@ -4,6 +4,7 @@ import UserCard from '@/lib/models/User_Card';
 import Properties from '@/lib/models/Properties';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/auth-options';
+import User from '@/lib/models/User';
 
 export async function DELETE(request: NextRequest) {
   try {
@@ -18,7 +19,16 @@ export async function DELETE(request: NextRequest) {
       }, { status: 401 });
     }
 
-    const userId = session.user.id;
+    const user = await User.findOne({ email: session.user.email });
+    if (!user) {
+      return NextResponse.json({ 
+        success: false, 
+        message: "User not found" 
+      }, { status: 404 });
+    }
+
+    const userId = user.googleId || user._id;
+
     if (!userId) {
       return NextResponse.json({ 
         success: false, 

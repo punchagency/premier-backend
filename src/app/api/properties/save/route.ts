@@ -4,6 +4,7 @@ import UserCard from '@/lib/models/User_Card';
 import Properties from '@/lib/models/Properties';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/auth-options';
+import User from '@/lib/models/User';
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,8 +18,15 @@ export async function POST(req: NextRequest) {
         message: "Unauthorized" 
       }, { status: 401 });
     }
+    const user = await User.findOne({ email: session.user.email });
+    if (!user) {
+      return NextResponse.json({ 
+        success: false, 
+        message: "User not found" 
+      }, { status: 404 });
+    }
 
-    const userId = session.user.id;
+    const userId = user.googleId || user._id;
 
     if (!userId) {
       return NextResponse.json({ 
