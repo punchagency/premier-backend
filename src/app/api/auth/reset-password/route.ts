@@ -6,8 +6,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-      await dbConnect()
-    const {token} = await request.json();
+    await dbConnect();
+    const { token } = await request.json();
     if (!token) {
       return NextResponse.json({
         success: false,
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     }
 
     const secretKey = new TextEncoder().encode(process.env.JWT_SECRET);
-    const{ payload } = await jwtVerify(token, secretKey);
+    const { payload } = await jwtVerify(token, secretKey);
     if (!payload) {
       return NextResponse.json({ success: false, message: "Invalid token" });
     }

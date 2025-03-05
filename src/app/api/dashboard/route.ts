@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import UserCard from "@/lib/models/User_Card";
 import Properties from "@/lib/models/Properties";
-import { jwtVerify } from "jose";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/auth-options";
+import User from "@/lib/models/User";
 
 const fetchItems = async (cmsIDs: []) => {
   try {
@@ -23,14 +23,24 @@ const fetchItems = async (cmsIDs: []) => {
 
 export async function GET(request: NextRequest) {
   try {
+    await dbConnect();
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const user = await User.findOne({ email: session.user.email });
+    console.log(user, "user");
+    if (!user) {
+      return NextResponse.json({ 
+        success: false, 
+        message: "User not found" 
+      }, { status: 404 });
+    }
 
-    const userId = session.user.id;
-    await dbConnect();
+    const userId = user.googleId || user._id; 
+    console.log(userId, "userId");
     const userCards = await UserCard.findOne({ userId });
+    console.log(userCards, "userCards");
     if (!userCards) {
       console.log("No saved items found, returning empty array");
       return NextResponse.json([]);
