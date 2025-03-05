@@ -33,6 +33,7 @@ export async function DELETE(request: NextRequest) {
    console.log(deletedUser, "deletedUser")
 
    console.log(user, "user")
+   console.log(user.id, "user.id")
    const deletedUserCards =  await UserCard.deleteOne({ userId: user.id });
     console.log(deletedUserCards, "deletedUserCards")
 
