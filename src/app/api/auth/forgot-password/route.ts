@@ -6,7 +6,7 @@ import dbConnect from "@/lib/db";
 
 export async function POST(request: Request) {
   try {
-    await dbConnect()
+    await dbConnect();
     const { email } = await request.json();
     if (!email) {
       return NextResponse.json(
@@ -16,10 +16,13 @@ export async function POST(request: Request) {
     }
     const user = await User.findOne({ email });
     if (!user) {
-      return NextResponse.json({ success: false, message: "User not found" });
+      return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
     }
-    if(user.googleId){
-      return NextResponse.json({ success: false, message: "Google account cannot reset password" });
+    if (user.googleId) {
+      return NextResponse.json({
+        success: false,
+        message: "Google account cannot reset password",
+      }, { status: 400 });
     }
 
     sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
