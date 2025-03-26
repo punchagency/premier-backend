@@ -5,6 +5,27 @@ import dbConnect from "@/lib/db";
 import User from "@/lib/models/User";
 import bcrypt from "bcryptjs";
 
+// create zoho lead function
+const createZohoLead = async (userData: { name: string; email: string }) => {
+  try {
+    console.log("Calling Zoho API with:", userData);
+    const response = await fetch(`${process.env.NEXTAUTH_URL}/api/zoho`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+    console.log("Zoho API response status:", response.status);
+    const data = await response.json();
+    console.log("Zoho API response data:", data);
+    return data.success;
+  } catch (error) {
+    console.error('Error adding user to Zoho:', error);
+    return false;
+  }
+};
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -13,7 +34,7 @@ export const authOptions: NextAuthOptions = {
     }),
     CredentialsProvider({
       name: "Credentials",
-      credentials: {
+      credentials: {  
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
@@ -43,7 +64,19 @@ export const authOptions: NextAuthOptions = {
               emailVerified: new Date(),
               role: "user",
             });
+
+            // Create Zoho lead if user is created
+            try {
+              await createZohoLead({
+                name: user.name,
+                email: user.email
+              });
+            } catch (zohoError) {
+              console.error("Error creating Zoho lead:", zohoError);
+            }
           }
+
+            
 
           return true;
         } catch (error) {

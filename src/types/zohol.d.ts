@@ -1,0 +1,1 @@
+declare module '@zohocrm/nodejs-sdk-2.0';
